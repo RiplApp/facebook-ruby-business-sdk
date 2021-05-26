@@ -110,7 +110,7 @@ module FacebookAds
     has_edge :access_token do |edge|
       edge.post 'Business' do |api|
         api.has_param :app_id, 'string'
-        api.has_param :scope, { list: 'Permission' }
+        api.has_param :scope, 'string'
       end
     end
 
