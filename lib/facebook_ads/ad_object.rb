@@ -168,7 +168,7 @@ module FacebookAds
     end
 
     def extract_options(params)
-      option_keys = [:batch_opts]
+      option_keys = [:batch_args]
       options = {}
       option_keys.each { |k| options[k] = params.delete(k) if params.has_key?(k) }
       [params, options]
