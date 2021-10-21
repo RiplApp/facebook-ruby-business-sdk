@@ -78,11 +78,16 @@ module FacebookAds
     field :price, 'string'
     field :property_type, 'string'
     field :sanitized_images, { list: 'string' }
+    field :unit_price, 'object'
     field :url, 'string'
     field :year_built, 'int'
 
     has_edge :augmented_realities_metadata do |edge|
       edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
     end
 
     has_edge :videos_metadata do |edge|

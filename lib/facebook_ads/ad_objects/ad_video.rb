@@ -36,10 +36,10 @@ module FacebookAds
       "ALOHA_CALL_VIDEO",
       "ALOHA_SUPERFRAME",
       "APP_REVIEW_SCREENCAST",
+      "ASSET_MANAGER",
       "ATLAS_VIDEO",
       "AUDIO_BROADCAST",
       "BROADCAST",
-      "CANDIDATE_VIDEOS",
       "CANVAS",
       "CFC_VIDEO",
       "CMS_MEDIA_MANAGER",
@@ -66,6 +66,7 @@ module FacebookAds
       "FB_SHORTS",
       "FB_SHORTS_GROUP_POST",
       "FB_SHORTS_POST",
+      "FB_SHORTS_REMIX_POST",
       "FUNDRAISER_COVER_VIDEO",
       "GAME_CLIP",
       "GEMSTONE",
@@ -89,6 +90,7 @@ module FacebookAds
       "INSTANT_ARTICLE",
       "INSTANT_GAME_CLIP",
       "ISSUE_MODULE",
+      "JOBS_CAREERS",
       "JOBS_VISUAL_INTRO_ENTRY",
       "JOB_APPLICATION_VIDEO",
       "JOB_OPENING_VIDEO",
@@ -101,19 +103,30 @@ module FacebookAds
       "LOOK_NOW_DEPRECATED",
       "MARKETPLACE_LISTING_VIDEO",
       "MARKETPLACE_PRE_RECORDED_VIDEO",
+      "MESSENGER_WATCH_TOGETHER",
+      "MOMENTS_VIDEO",
+      "MUSIC_CLIP",
+      "MUSIC_CLIP_IN_COMMENT",
+      "MUSIC_CLIP_IN_POLL_OPTION",
       "NEO_ASYNC_GAME_VIDEO",
       "NO_STORY",
       "NO_STORY_WITH_ENTPOST",
+      "NPE_COLLAB_COPYRIGHT_CHECK",
       "OCULUS_CREATOR_PORTAL",
       "OCULUS_VENUES_BROADCAST",
       "OFFERS_VIDEO",
       "PAGES_COVER_VIDEO",
       "PAGE_REVIEW_SCREENCAST",
       "PAGE_SLIDESHOW_VIDEO",
+      "PAID_CONTENT_PREVIEW",
       "PARTNER_DIRECTORY_BRAND_MEDIA",
       "PIXELCLOUD",
+      "PODCAST_HIGHLIGHT",
       "PODCAST_RSS",
+      "PODCAST_RSS_EPHEMERAL",
+      "PODCAST_RSS_NO_NEWSFEED_STORY",
       "PODCAST_VOICES",
+      "PODCAST_VOICES_NO_NEWSFEED_STORY",
       "PREMIERE_SOURCE",
       "PREMIUM_MUSIC_VIDEO_NO_NEWSFEED_STORY",
       "PREMIUM_MUSIC_VIDEO_WITH_NEWSFEED_STORY",
@@ -135,6 +148,7 @@ module FacebookAds
       "SOUNDBITES_VIDEO",
       "SOUND_PLATFORM_STREAM",
       "SRT_ATTACHMENT",
+      "STAGES_BROADCAST",
       "STORIES_VIDEO",
       "STORYLINE",
       "STORYLINE_WITH_EXTERNAL_MUSIC",
@@ -142,6 +156,7 @@ module FacebookAds
       "STORY_CARD_TEMPLATE",
       "STREAM_HIGHLIGHTS_VIDEO",
       "TAROT_DIGEST",
+      "TEMPORARY_UNLISTED",
       "TEMP_MULTIMEDIA_POST",
       "UNLISTED",
       "UNLISTED_HACK_TV",
@@ -150,6 +165,7 @@ module FacebookAds
       "VIDEO_COMPOSITION_VARIATION",
       "VIDEO_CREATIVE_EDITOR_AUTOGEN_AD_VIDEO",
       "VIDEO_SUPERRES",
+      "VOICES_ARTICLE_VIDEO",
       "VU_GENERATED_VIDEO",
       "WOODHENGE",
       "WORK_KNOWLEDGE_VIDEO",
@@ -234,7 +250,7 @@ module FacebookAds
     field :created_time, 'datetime'
     field :custom_labels, { list: 'string' }
     field :description, 'string'
-    field :embed_html, 'string'
+    field :embed_html, 'object'
     field :embeddable, 'bool'
     field :event, 'Event'
     field :expiration, 'object'
@@ -254,6 +270,7 @@ module FacebookAds
     field :permalink_url, 'object'
     field :picture, 'string'
     field :place, 'Place'
+    field :post_views, 'int'
     field :premiere_living_room_status, 'string'
     field :privacy, 'Privacy'
     field :published, 'bool'
@@ -264,6 +281,7 @@ module FacebookAds
     field :title, 'string'
     field :universal_video_id, 'string'
     field :updated_time, 'datetime'
+    field :views, 'int'
     field :adaptive_type, 'string'
     field :animated_effect_id, 'int'
     field :application_id, 'string'
@@ -367,6 +385,12 @@ module FacebookAds
 
     has_edge :crosspost_shared_pages do |edge|
       edge.get 'Page'
+    end
+
+    has_edge :gaming_clip_create do |edge|
+      edge.post 'AdVideo' do |api|
+        api.has_param :duration_seconds, 'double'
+      end
     end
 
     has_edge :likes do |edge|

@@ -25,11 +25,10 @@ module FacebookAds
   # on github and we'll fix in our codegen framework. We'll not be able to accept
   # pull request for this class.
 
-  class ProductFeedUploadDiagnosticsReport < AdObject
+  class AdStudyObjectiveOffsiteDatasets < AdObject
 
-    field :last_updated_time, 'string'
-    field :report_url, 'string'
-    has_no_id
+    field :event_names, { list: 'string' }
+    field :id, 'string'
     has_no_get
     has_no_post
     has_no_delete

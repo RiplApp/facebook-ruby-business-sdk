@@ -35,6 +35,7 @@ module FacebookAds
 
 
     field :ad_account_ids, { list: 'string' }
+    field :advertiser_name, 'string'
     field :amount, 'string'
     field :amount_due, 'CurrencyAmount'
     field :billed_amount_details, 'BilledAmountDetails'
@@ -57,7 +58,7 @@ module FacebookAds
     has_no_delete
 
     has_edge :campaigns do |edge|
-      edge.get 'InvoiceCampaignNew'
+      edge.get 'InvoiceCampaign'
     end
 
   end

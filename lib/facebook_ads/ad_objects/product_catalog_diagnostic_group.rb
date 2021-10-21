@@ -25,26 +25,64 @@ module FacebookAds
   # on github and we'll fix in our codegen framework. We'll not be able to accept
   # pull request for this class.
 
-  class AdPlacePageSet < AdObject
-    LOCATION_TYPES = [
-      "home",
-      "recent",
+  class ProductCatalogDiagnosticGroup < AdObject
+    AFFECTED_CHANNELS = [
+      "business_inbox_in_messenger",
+      "shops",
+      "test_capability",
+      "universal_checkout",
+      "us_marketplace",
     ]
 
-    TARGETED_AREA_TYPE = [
-      "CUSTOM_RADIUS",
-      "MARKETING_AREA",
-      "NONE",
+    AFFECTED_FEATURES = [
+      "augmented_reality",
+      "checkout",
+    ]
+
+    SEVERITY = [
+      "MUST_FIX",
+      "OPPORTUNITY",
+    ]
+
+    TYPE = [
+      "ATTRIBUTES_INVALID",
+      "ATTRIBUTES_MISSING",
+      "CATEGORY",
+      "CHECKOUT",
+      "IMAGE_QUALITY",
+      "LOW_QUALITY_TITLE_AND_DESCRIPTION",
+      "POLICY_VIOLATION",
+      "SHOPS_VISIBILITY_ISSUES",
+    ]
+
+    SEVERITIES = [
+      "MUST_FIX",
+      "OPPORTUNITY",
+    ]
+
+    TYPES = [
+      "ATTRIBUTES_INVALID",
+      "ATTRIBUTES_MISSING",
+      "CATEGORY",
+      "CHECKOUT",
+      "IMAGE_QUALITY",
+      "LOW_QUALITY_TITLE_AND_DESCRIPTION",
+      "POLICY_VIOLATION",
+      "SHOPS_VISIBILITY_ISSUES",
     ]
 
 
-    field :account_id, 'string'
-    field :id, 'string'
-    field :location_types, { list: 'string' }
-    field :name, 'string'
-    field :pages_count, 'int'
-    field :parent_page, 'Page'
-    field :targeted_area_type, 'adaccountad_place_page_sets_targeted_area_type_enum_param'
+    field :affected_channels, { list: { enum: -> { AFFECTED_CHANNELS }} }
+    field :affected_features, { list: { enum: -> { AFFECTED_FEATURES }} }
+    field :diagnostics, { list: 'object' }
+    field :error_code, 'int'
+    field :number_of_affected_items, 'int'
+    field :severity, { enum: -> { SEVERITY }}
+    field :subtitle, 'string'
+    field :title, 'string'
+    field :type, { enum: -> { TYPE }}
+    has_no_id
+    has_no_get
     has_no_post
     has_no_delete
 

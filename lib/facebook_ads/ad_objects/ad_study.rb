@@ -30,7 +30,6 @@ module FacebookAds
       "CONTINUOUS_LIFT_CONFIG",
       "GEO_LIFT",
       "LIFT",
-      "PRIVATE_LIFT",
       "SPLIT_TEST",
     ]
 
@@ -40,7 +39,6 @@ module FacebookAds
     field :cooldown_start_time, 'datetime'
     field :created_by, 'User'
     field :created_time, 'datetime'
-    field :datasets_information, { list: 'string' }
     field :description, 'string'
     field :end_time, 'datetime'
     field :id, 'string'

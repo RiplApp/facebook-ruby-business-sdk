@@ -25,23 +25,23 @@ module FacebookAds
   # on github and we'll fix in our codegen framework. We'll not be able to accept
   # pull request for this class.
 
-  class CpasParentCatalogSettings < AdObject
-    ATTRIBUTION_WINDOWS = [
-      "DDA",
-      "DEFAULT",
-      "X1D_CLICK",
-      "X1D_VIEW",
-      "X28D_CLICK",
-      "X28D_VIEW",
-      "X7D_CLICK",
-      "X7D_VIEW",
-    ]
+  class ChatPlugin < AdObject
 
-
-    field :attribution_windows, { list: 'string' }
-    field :default_currency, 'string'
-    field :disable_use_as_parent_catalog, 'bool'
-    field :id, 'string'
+    field :alignment, 'string'
+    field :desktop_bottom_spacing, 'string'
+    field :desktop_side_spacing, 'string'
+    field :entry_point_icon, 'string'
+    field :entry_point_label, 'string'
+    field :greeting_dialog_display, 'string'
+    field :guest_chat_mode, 'string'
+    field :mobile_bottom_spacing, 'string'
+    field :mobile_chat_display, 'string'
+    field :mobile_side_spacing, 'string'
+    field :theme_color, 'string'
+    field :welcome_screen_greeting, 'string'
+    has_no_id
+    has_no_get
+    has_no_post
     has_no_delete
 
   end

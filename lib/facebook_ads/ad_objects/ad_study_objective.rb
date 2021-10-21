@@ -27,9 +27,9 @@ module FacebookAds
 
   class AdStudyObjective < AdObject
     TYPE = [
-      "AEP_CONVERSION",
       "BRAND",
       "BRANDLIFT",
+      "CONVERSIONS",
       "FTL",
       "MAE",
       "MAI",
@@ -48,10 +48,6 @@ module FacebookAds
     field :results, { list: 'string' }
     field :type, 'string'
     has_no_delete
-
-    has_edge :ad_place_page_sets do |edge|
-      edge.get 'AdPlacePageSet'
-    end
 
     has_edge :adspixels do |edge|
       edge.get 'AdsPixel'

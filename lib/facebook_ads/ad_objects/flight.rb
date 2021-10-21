@@ -52,11 +52,16 @@ module FacebookAds
     field :origin_city, 'string'
     field :price, 'string'
     field :sanitized_images, { list: 'string' }
+    field :unit_price, 'object'
     field :url, 'string'
     has_no_delete
 
     has_edge :augmented_realities_metadata do |edge|
       edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
     end
 
     has_edge :videos_metadata do |edge|

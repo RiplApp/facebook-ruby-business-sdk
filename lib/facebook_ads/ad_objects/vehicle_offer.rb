@@ -68,6 +68,7 @@ module FacebookAds
     field :term_qualifier, 'string'
     field :title, 'string'
     field :trim, 'string'
+    field :unit_price, 'object'
     field :url, 'string'
     field :vehicle_offer_id, 'string'
     field :year, 'int'
@@ -76,6 +77,10 @@ module FacebookAds
 
     has_edge :augmented_realities_metadata do |edge|
       edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
     end
 
     has_edge :videos_metadata do |edge|

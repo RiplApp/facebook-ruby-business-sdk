@@ -56,11 +56,16 @@ module FacebookAds
     field :sale_price, 'string'
     field :sanitized_images, { list: 'string' }
     field :star_rating, 'double'
+    field :unit_price, 'object'
     field :url, 'string'
     field :base_price, 'int'
 
     has_edge :augmented_realities_metadata do |edge|
       edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
     end
 
     has_edge :hotel_rooms do |edge|

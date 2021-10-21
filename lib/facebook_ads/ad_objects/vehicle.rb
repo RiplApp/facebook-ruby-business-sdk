@@ -153,6 +153,7 @@ module FacebookAds
     field :title, 'string'
     field :transmission, 'string'
     field :trim, 'string'
+    field :unit_price, 'object'
     field :url, 'string'
     field :vehicle_id, 'string'
     field :vehicle_registration_plate, 'string'
@@ -164,6 +165,10 @@ module FacebookAds
 
     has_edge :augmented_realities_metadata do |edge|
       edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
     end
 
     has_edge :videos_metadata do |edge|

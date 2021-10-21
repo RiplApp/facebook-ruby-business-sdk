@@ -25,26 +25,22 @@ module FacebookAds
   # on github and we'll fix in our codegen framework. We'll not be able to accept
   # pull request for this class.
 
-  class AdPlacePageSet < AdObject
-    LOCATION_TYPES = [
-      "home",
-      "recent",
-    ]
+  class CanvasTemplate < AdObject
 
-    TARGETED_AREA_TYPE = [
-      "CUSTOM_RADIUS",
-      "MARKETING_AREA",
-      "NONE",
-    ]
-
-
-    field :account_id, 'string'
+    field :channels, 'map<string, map<string, string>>'
+    field :description, 'string'
+    field :document, 'Canvas'
     field :id, 'string'
-    field :location_types, { list: 'string' }
+    field :is_multi_tab_supportable, 'bool'
+    field :is_new, 'bool'
     field :name, 'string'
-    field :pages_count, 'int'
-    field :parent_page, 'Page'
-    field :targeted_area_type, 'adaccountad_place_page_sets_targeted_area_type_enum_param'
+    field :objectives, 'hash'
+    field :owner_id, 'User'
+    field :required_capabilities, { list: 'string' }
+    field :snapshot_photo, 'Photo'
+    field :status, 'string'
+    field :sub_verticals, { list: 'string' }
+    field :verticals, 'hash'
     has_no_post
     has_no_delete
 

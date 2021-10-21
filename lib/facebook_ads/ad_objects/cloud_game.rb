@@ -25,18 +25,17 @@ module FacebookAds
   # on github and we'll fix in our codegen framework. We'll not be able to accept
   # pull request for this class.
 
-  class InvoiceCampaignNew < AdObject
+  class CloudGame < AdObject
 
-    field :ad_account_id, 'string'
-    field :billed_amount_details, 'BilledAmountDetails'
-    field :campaign_id, 'string'
-    field :campaign_name, 'string'
-    field :clicks, 'int'
-    field :conversions, 'int'
-    field :impressions, 'int'
-    field :tags, { list: 'string' }
-    has_no_id
-    has_no_get
+    field :id, 'string'
+    field :name, 'string'
+    field :owner, 'Profile'
+    field :playable_ad_file_size, 'int'
+    field :playable_ad_orientation, 'string'
+    field :playable_ad_package_name, 'string'
+    field :playable_ad_reject_reason, 'string'
+    field :playable_ad_status, 'string'
+    field :playable_ad_upload_time, 'datetime'
     has_no_post
     has_no_delete
 

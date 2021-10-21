@@ -44,6 +44,7 @@ module FacebookAds
       "FLIGHT",
       "HOME_LISTING",
       "HOTEL",
+      "JOB",
       "LOCAL_SERVICE_BUSINESS",
       "LOCATION_BASED_ITEM",
       "MEDIA_TITLE",
@@ -84,6 +85,7 @@ module FacebookAds
     field :data_source, 'CustomAudienceDataSource'
     field :data_source_types, 'string'
     field :datafile_custom_audience_uploading_status, 'string'
+    field :delete_time, 'int'
     field :delivery_status, 'CustomAudienceStatus'
     field :description, 'string'
     field :excluded_custom_audiences, { list: 'CustomAudience' }
@@ -99,6 +101,7 @@ module FacebookAds
     field :name, 'string'
     field :operation_status, 'CustomAudienceStatus'
     field :opt_out_link, 'string'
+    field :page_deletion_marked_delete_time, 'int'
     field :permission_for_actions, 'AudiencePermissionForActions'
     field :pixel_id, 'string'
     field :regulated_audience_spec, 'LookalikeSpec'
