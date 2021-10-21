@@ -48,6 +48,7 @@ module FacebookAds
       "CAMPAIGN_PAUSED",
       "DELETED",
       "DISAPPROVED",
+      "IN_PROCESS",
       "PAUSED",
       "PENDING_BILLING_INFO",
       "PENDING_REVIEW",
@@ -74,7 +75,7 @@ module FacebookAds
       "last_week_mon_sun",
       "last_week_sun_sat",
       "last_year",
-      "lifetime",
+      "maximum",
       "this_month",
       "this_quarter",
       "this_week_mon_today",
@@ -113,6 +114,7 @@ module FacebookAds
     field :campaign, 'Campaign'
     field :campaign_id, 'string'
     field :configured_status, { enum: -> { CONFIGURED_STATUS }}
+    field :conversion_domain, 'string'
     field :conversion_specs, { list: 'ConversionActionQuery' }
     field :created_time, 'datetime'
     field :creative, 'AdCreative'
@@ -125,6 +127,7 @@ module FacebookAds
     field :issues_info, { list: 'AdgroupIssuesInfo' }
     field :last_updated_by_app_id, 'string'
     field :name, 'string'
+    field :preview_shareable_link, 'string'
     field :priority, 'int'
     field :recommendations, { list: 'AdRecommendation' }
     field :source_ad, 'Ad'
@@ -146,10 +149,6 @@ module FacebookAds
     end
 
     has_edge :adlabels do |edge|
-      edge.delete do |api|
-        api.has_param :adlabels, { list: 'object' }
-        api.has_param :execution_options, { list: { enum: -> { Ad::EXECUTION_OPTIONS }} }
-      end
       edge.post 'Ad' do |api|
         api.has_param :adlabels, { list: 'object' }
         api.has_param :execution_options, { list: { enum: -> { Ad::EXECUTION_OPTIONS }} }
@@ -166,7 +165,6 @@ module FacebookAds
       edge.get 'Ad' do |api|
         api.has_param :date_preset, { enum: -> { Ad::DATE_PRESET }}
         api.has_param :effective_status, { list: 'string' }
-        api.has_param :include_deleted, 'bool'
         api.has_param :time_range, 'object'
         api.has_param :updated_since, 'int'
       end
@@ -199,6 +197,7 @@ module FacebookAds
         api.has_param :time_range, 'object'
         api.has_param :time_ranges, { list: 'object' }
         api.has_param :use_account_attribution_setting, 'bool'
+        api.has_param :use_unified_attribution_setting, 'bool'
       end
       edge.post 'AdReportRun' do |api|
         api.has_param :action_attribution_windows, { list: { enum: -> { AdsInsights::ACTION_ATTRIBUTION_WINDOWS }} }
@@ -221,12 +220,7 @@ module FacebookAds
         api.has_param :time_range, 'object'
         api.has_param :time_ranges, { list: 'object' }
         api.has_param :use_account_attribution_setting, 'bool'
-      end
-    end
-
-    has_edge :keywordstats do |edge|
-      edge.get 'AdKeywordStats' do |api|
-        api.has_param :date, 'datetime'
+        api.has_param :use_unified_attribution_setting, 'bool'
       end
     end
 
@@ -242,7 +236,6 @@ module FacebookAds
         api.has_param :dynamic_customization, 'object'
         api.has_param :end_date, 'datetime'
         api.has_param :height, 'int'
-        api.has_param :interactive, 'bool'
         api.has_param :locale, 'string'
         api.has_param :place_page_id, 'int'
         api.has_param :post, 'object'
@@ -255,13 +248,6 @@ module FacebookAds
 
     has_edge :targetingsentencelines do |edge|
       edge.get 'TargetingSentenceLine'
-    end
-
-    has_edge :trackingtag do |edge|
-      edge.post do |api|
-        api.has_param :add_template_param, 'bool'
-        api.has_param :url, 'string'
-      end
     end
 
   end

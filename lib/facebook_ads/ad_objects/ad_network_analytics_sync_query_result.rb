@@ -32,6 +32,8 @@ module FacebookAds
     ]
 
     BREAKDOWNS = [
+      "AD_SERVER_CAMPAIGN_ID",
+      "AD_SPACE",
       "AGE",
       "APP",
       "CLICKED_VIEW_TAG",
@@ -43,6 +45,9 @@ module FacebookAds
       "DISPLAY_FORMAT",
       "FAIL_REASON",
       "GENDER",
+      "INSTANT_ARTICLE_ID",
+      "INSTANT_ARTICLE_PAGE_ID",
+      "IS_DEAL_BACKFILL",
       "PLACEMENT",
       "PLACEMENT_NAME",
       "PLATFORM",

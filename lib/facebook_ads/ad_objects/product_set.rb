@@ -30,9 +30,14 @@ module FacebookAds
     field :auto_creation_url, 'string'
     field :filter, 'string'
     field :id, 'string'
+    field :latest_metadata, 'ProductSetMetadata'
+    field :live_metadata, 'ProductSetMetadata'
     field :name, 'string'
+    field :ordering_info, { list: 'int' }
     field :product_catalog, 'ProductCatalog'
     field :product_count, 'int'
+    field :retailer_id, 'string'
+    field :metadata, 'hash'
 
     has_edge :automotive_models do |edge|
       edge.get 'AutomotiveModel' do |api|
@@ -69,8 +74,22 @@ module FacebookAds
       end
     end
 
+    has_edge :media_titles do |edge|
+      edge.get do |api|
+        api.has_param :bulk_pagination, 'bool'
+        api.has_param :filter, 'object'
+      end
+    end
+
     has_edge :products do |edge|
       edge.get 'ProductItem' do |api|
+        api.has_param :bulk_pagination, 'bool'
+        api.has_param :filter, 'object'
+      end
+    end
+
+    has_edge :vehicle_offers do |edge|
+      edge.get 'VehicleOffer' do |api|
         api.has_param :bulk_pagination, 'bool'
         api.has_param :filter, 'object'
       end

@@ -40,7 +40,9 @@ module FacebookAds
       "DRAFT",
       "INLINE_CREATED",
       "PUBLISHED",
+      "REVIEWABLE_BRANDED_CONTENT",
       "SCHEDULED",
+      "SCHEDULED_RECURRING",
     ]
 
     TYPE = [
@@ -123,18 +125,8 @@ module FacebookAds
       end
     end
 
-    has_edge :reactions do |edge|
-      edge.get 'Profile' do |api|
-        api.has_param :type, { enum: -> { Profile::TYPE }}
-      end
-    end
-
-    has_edge :sharedposts do |edge|
-      edge.get 'Post'
-    end
-
-    has_edge :tags do |edge|
-      edge.get 'TaggableSubject'
+    has_edge :sponsor_tags do |edge|
+      edge.get 'Page'
     end
 
   end

@@ -32,8 +32,11 @@ module FacebookAds
     ]
 
     AUTOMATIC_MATCHING_FIELDS = [
+      "country",
       "ct",
+      "db",
       "em",
+      "external_id",
       "fn",
       "ge",
       "ln",
@@ -55,8 +58,11 @@ module FacebookAds
     ]
 
     TASKS = [
+      "AA_ANALYZE",
+      "ADVERTISE",
       "ANALYZE",
       "EDIT",
+      "UPLOAD",
     ]
 
 
@@ -70,6 +76,8 @@ module FacebookAds
     field :first_party_cookie_status, 'string'
     field :id, 'string'
     field :is_created_by_business, 'bool'
+    field :is_crm, 'bool'
+    field :is_unavailable, 'bool'
     field :last_fired_time, 'datetime'
     field :name, 'string'
     field :owner_ad_account, 'AdAccount'
@@ -77,30 +85,37 @@ module FacebookAds
     has_no_delete
 
     has_edge :assigned_users do |edge|
-      edge.delete do |api|
-        api.has_param :business, 'string'
-        api.has_param :user, 'int'
-      end
       edge.get 'AssignedUser' do |api|
         api.has_param :business, 'string'
       end
       edge.post 'AdsPixel' do |api|
-        api.has_param :business, 'string'
         api.has_param :tasks, { list: { enum: -> { AdsPixel::TASKS }} }
         api.has_param :user, 'int'
-      end
-    end
-
-    has_edge :audiences do |edge|
-      edge.get 'CustomAudience' do |api|
-        api.has_param :ad_account, 'string'
       end
     end
 
     has_edge :da_checks do |edge|
       edge.get 'DaCheck' do |api|
         api.has_param :checks, { list: 'string' }
+        api.has_param :connection_method, { enum: -> { DaCheck::CONNECTION_METHOD }}
       end
+    end
+
+    has_edge :events do |edge|
+      edge.post 'AdsPixel' do |api|
+        api.has_param :data, { list: 'string' }
+        api.has_param :namespace_id, 'string'
+        api.has_param :partner_agent, 'string'
+        api.has_param :test_event_code, 'string'
+        api.has_param :trace, 'int'
+        api.has_param :upload_id, 'string'
+        api.has_param :upload_source, 'string'
+        api.has_param :upload_tag, 'string'
+      end
+    end
+
+    has_edge :shadowtraffichelper do |edge|
+      edge.post
     end
 
     has_edge :shared_accounts do |edge|

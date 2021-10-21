@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'My Offer Claims Campaign',
     objective: 'OFFER_CLAIMS',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'My First Campaign',
     objective: 'PAGE_LIKES',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

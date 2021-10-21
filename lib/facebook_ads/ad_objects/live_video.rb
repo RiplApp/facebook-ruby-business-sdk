@@ -73,12 +73,22 @@ module FacebookAds
     ]
 
     LIVE_COMMENT_MODERATION_SETTING = [
+      "DEFAULT",
       "DISCUSSION",
+      "FOLLOWED",
       "FOLLOWER",
+      "NO_HYPERLINK",
       "PROTECTED_MODE",
       "RESTRICTED",
       "SLOW",
       "SUPPORTER",
+      "TAGGED",
+    ]
+
+    PERSISTENT_STREAM_KEY_STATUS = [
+      "DISABLE",
+      "ENABLE",
+      "REGENERATE",
     ]
 
 
@@ -90,7 +100,7 @@ module FacebookAds
     field :dash_ingest_url, 'string'
     field :dash_preview_url, 'string'
     field :description, 'string'
-    field :embed_html, 'string'
+    field :embed_html, 'object'
     field :from, 'object'
     field :id, 'string'
     field :ingest_streams, { list: 'LiveVideoInputStream' }
@@ -98,7 +108,8 @@ module FacebookAds
     field :is_reference_only, 'bool'
     field :live_encoders, { list: 'LiveEncoder' }
     field :live_views, 'int'
-    field :permalink_url, 'string'
+    field :overlay_url, 'string'
+    field :permalink_url, 'object'
     field :planned_start_time, 'datetime'
     field :seconds_left, 'int'
     field :secure_stream_url, 'string'
@@ -108,6 +119,12 @@ module FacebookAds
     field :title, 'string'
     field :total_views, 'string'
     field :video, 'AdVideo'
+
+    has_edge :blocked_users do |edge|
+      edge.get 'User' do |api|
+        api.has_param :uid, 'object'
+      end
+    end
 
     has_edge :comments do |edge|
       edge.get 'Comment' do |api|
@@ -130,8 +147,8 @@ module FacebookAds
       edge.get 'LiveVideoError'
     end
 
-    has_edge :likes do |edge|
-      edge.get 'Profile'
+    has_edge :input_streams do |edge|
+      edge.post 'LiveVideoInputStream'
     end
 
     has_edge :polls do |edge|

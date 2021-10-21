@@ -26,58 +26,6 @@ module FacebookAds
   # pull request for this class.
 
   class AdReportSpec < AdObject
-    ACTIONS_GROUP_BY = [
-      "action_canvas_component_id",
-      "action_canvas_component_name",
-      "action_carousel_card_id",
-      "action_carousel_card_name",
-      "action_converted_product_id",
-      "action_destination",
-      "action_device",
-      "action_event_channel",
-      "action_target_id",
-      "action_type",
-      "action_video_sound",
-      "action_video_type",
-      "interactive_component_sticker_id",
-      "interactive_component_sticker_response",
-    ]
-
-    CREATION_SOURCE = [
-      "adsExcelAddin",
-      "adsManagerReporting",
-      "newAdsManager",
-    ]
-
-    DATE_PRESET = [
-      "last_14d",
-      "last_28d",
-      "last_30d",
-      "last_3d",
-      "last_7d",
-      "last_90d",
-      "last_month",
-      "last_quarter",
-      "last_week_mon_sun",
-      "last_week_sun_sat",
-      "last_year",
-      "lifetime",
-      "this_month",
-      "this_quarter",
-      "this_week_mon_today",
-      "this_week_sun_today",
-      "this_year",
-      "today",
-      "yesterday",
-    ]
-
-    FORMAT = [
-      "CSV",
-      "JSON",
-      "XLS",
-      "XLSX",
-    ]
-
 
     field :account_id, 'string'
     field :actions_group_by, { list: 'string' }
@@ -90,19 +38,14 @@ module FacebookAds
     field :id, 'string'
     field :insights_section, 'object'
     field :name, 'string'
-    field :report_schedule, 'object'
     field :report_schedule_id, 'string'
     field :sort_by, 'string'
     field :sort_dir, 'string'
     field :time_increment, 'string'
     field :time_interval, 'object'
     field :time_ranges, { list: 'object' }
-    field :business_id, 'string'
-    field :bypass_async, 'bool'
-    field :format, { enum: -> { FORMAT }}
-    field :limit, 'int'
-    field :report_run_id, 'string'
-    field :user_report, 'bool'
+    has_no_post
+    has_no_delete
 
   end
 end

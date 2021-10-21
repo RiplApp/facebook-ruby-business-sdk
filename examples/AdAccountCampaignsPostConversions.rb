@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'Conversions Campaign',
     objective: 'CONVERSIONS',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

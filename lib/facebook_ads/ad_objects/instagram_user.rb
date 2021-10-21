@@ -40,17 +40,10 @@ module FacebookAds
     has_no_delete
 
     has_edge :agencies do |edge|
-      edge.delete do |api|
-        api.has_param :business, 'string'
-      end
       edge.get 'Business'
     end
 
     has_edge :authorized_adaccounts do |edge|
-      edge.delete do |api|
-        api.has_param :account_id, 'string'
-        api.has_param :business, 'string'
-      end
       edge.get 'AdAccount' do |api|
         api.has_param :business, 'string'
       end

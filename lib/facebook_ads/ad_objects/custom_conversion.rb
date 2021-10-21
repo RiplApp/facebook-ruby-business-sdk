@@ -35,6 +35,7 @@ module FacebookAds
       "CONTENT_VIEW",
       "CUSTOMIZE_PRODUCT",
       "DONATE",
+      "FACEBOOK_SELECTED",
       "FIND_LOCATION",
       "INITIATED_CHECKOUT",
       "LEAD",
@@ -71,13 +72,6 @@ module FacebookAds
     field :advanced_rule, 'string'
     field :event_source_id, 'string'
     field :custom_conversion_id, 'string'
-
-    has_edge :adaccounts do |edge|
-      edge.delete do |api|
-        api.has_param :account_id, 'string'
-        api.has_param :business, 'string'
-      end
-    end
 
     has_edge :stats do |edge|
       edge.get 'CustomConversionStatsResult' do |api|

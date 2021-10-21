@@ -47,14 +47,13 @@ module FacebookAds
     field :day_of_month, 'int'
     field :day_of_week, { enum: -> { DAY_OF_WEEK }}
     field :hour, 'int'
+    field :id, 'string'
     field :interval, { enum: -> { INTERVAL }}
     field :interval_count, 'int'
     field :minute, 'int'
     field :timezone, 'string'
     field :url, 'string'
     field :username, 'string'
-    has_no_id
-    has_no_get
     has_no_post
     has_no_delete
 

@@ -28,13 +28,9 @@ module FacebookAds
   class AdStudy < AdObject
     TYPE = [
       "CONTINUOUS_LIFT_CONFIG",
+      "GEO_LIFT",
       "LIFT",
       "SPLIT_TEST",
-    ]
-
-    AUDIENCE_TYPE = [
-      "MOST_RESPONSIVE",
-      "NOT_MOST_RESPONSIVE",
     ]
 
 
@@ -63,37 +59,15 @@ module FacebookAds
       edge.get 'AdStudyCell'
     end
 
-    has_edge :customaudiences do |edge|
-      edge.post 'AdStudy' do |api|
-        api.has_param :account_id, 'string'
-        api.has_param :audience_name, 'string'
-        api.has_param :audience_type, { enum: -> { AdStudy::AUDIENCE_TYPE }}
-        api.has_param :cell_id, 'string'
-        api.has_param :objective_id, 'string'
+    has_edge :instances do |edge|
+      edge.get 'PrivateLiftStudyInstance'
+      edge.post 'PrivateLiftStudyInstance' do |api|
+        api.has_param :breakdown_key, 'hash'
       end
-    end
-
-    has_edge :health_check_errors do |edge|
-      edge.get 'AdsTalHealthCheckError'
     end
 
     has_edge :objectives do |edge|
       edge.get 'AdStudyObjective'
-      edge.post 'AdStudyObjective' do |api|
-        api.has_param :adspixels, { list: 'object' }
-        api.has_param :applications, { list: 'object' }
-        api.has_param :customconversions, { list: 'object' }
-        api.has_param :is_primary, 'bool'
-        api.has_param :name, 'string'
-        api.has_param :offline_conversion_data_sets, { list: 'object' }
-        api.has_param :offsitepixels, { list: 'object' }
-        api.has_param :product_sets, { list: 'object' }
-        api.has_param :type, { enum: -> { AdStudyObjective::TYPE }}
-      end
-    end
-
-    has_edge :viewers do |edge|
-      edge.get 'User'
     end
 
   end

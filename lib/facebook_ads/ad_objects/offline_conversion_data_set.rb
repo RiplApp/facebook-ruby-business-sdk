@@ -35,6 +35,7 @@ module FacebookAds
     RELATIONSHIP_TYPE = [
       "AD_MANAGER",
       "AGENCY",
+      "AGGREGATOR",
       "AUDIENCE_MANAGER",
       "OTHER",
     ]
@@ -52,6 +53,7 @@ module FacebookAds
     field :id, 'string'
     field :is_mta_use, 'bool'
     field :is_restricted_use, 'bool'
+    field :is_unavailable, 'bool'
     field :last_upload_app, 'string'
     field :last_upload_app_changed_time, 'int'
     field :match_rate_approx, 'int'
@@ -73,9 +75,6 @@ module FacebookAds
     end
 
     has_edge :agencies do |edge|
-      edge.delete do |api|
-        api.has_param :business, 'string'
-      end
       edge.get 'Business'
       edge.post 'OfflineConversionDataSet' do |api|
         api.has_param :business, 'string'
@@ -129,12 +128,6 @@ module FacebookAds
       end
       edge.post do |api|
         api.has_param :upload_tag, 'string'
-      end
-    end
-
-    has_edge :users do |edge|
-      edge.post 'OfflineConversionDataSet' do |api|
-        api.has_param :data, { list: 'object' }
       end
     end
 

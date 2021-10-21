@@ -33,9 +33,9 @@ module FacebookAds
     ]
 
     POST_PERMISSIONS = [
-      "ADMIN_ONLY",
-      "ANYONE",
-      "NONE",
+      "0",
+      "1",
+      "2",
     ]
 
     PURPOSE = [
@@ -45,9 +45,11 @@ module FacebookAds
       "COUPLE",
       "COWORKERS",
       "CUSTOM",
+      "DEALS",
       "EPHEMERAL",
       "EVENT_PLANNING",
       "FAMILY",
+      "FANTASY_LEAGUE",
       "FITNESS",
       "FOR_SALE",
       "FOR_WORK",
@@ -57,19 +59,23 @@ module FacebookAds
       "HIGH_SCHOOL_FORUM",
       "JOBS",
       "LEARNING",
-      "MEME",
       "MENTORSHIP",
       "NEIGHBORS",
       "NONE",
+      "OCULUS",
+      "PARENTING",
       "PARENTS",
       "PROJECT",
       "REAL_WORLD",
       "REAL_WORLD_AT_WORK",
       "SCHOOL_CLASS",
       "SORORITY",
+      "SPORTS",
+      "STREAMER",
       "STUDY_GROUP",
       "SUPPORT",
       "TEAMMATES",
+      "THEME",
       "TRAVEL_PLANNING",
       "WORK_ANNOUNCEMENT",
       "WORK_DEMO_GROUP",
@@ -77,13 +83,16 @@ module FacebookAds
       "WORK_EPHEMERAL",
       "WORK_FEEDBACK",
       "WORK_FOR_SALE",
+      "WORK_GARDEN",
       "WORK_LEARNING",
       "WORK_MENTORSHIP",
       "WORK_MULTI_COMPANY",
       "WORK_RECRUITING",
+      "WORK_RESUME_REVIEW",
       "WORK_SOCIAL",
       "WORK_TEAM",
       "WORK_TEAMWORK",
+      "WORK_VC_CALL",
     ]
 
     GROUP_TYPE = [
@@ -93,9 +102,11 @@ module FacebookAds
       "COUPLE",
       "COWORKERS",
       "CUSTOM",
+      "DEALS",
       "EPHEMERAL",
       "EVENT_PLANNING",
       "FAMILY",
+      "FANTASY_LEAGUE",
       "FITNESS",
       "FOR_SALE",
       "FOR_WORK",
@@ -105,19 +116,23 @@ module FacebookAds
       "HIGH_SCHOOL_FORUM",
       "JOBS",
       "LEARNING",
-      "MEME",
       "MENTORSHIP",
       "NEIGHBORS",
       "NONE",
+      "OCULUS",
+      "PARENTING",
       "PARENTS",
       "PROJECT",
       "REAL_WORLD",
       "REAL_WORLD_AT_WORK",
       "SCHOOL_CLASS",
       "SORORITY",
+      "SPORTS",
+      "STREAMER",
       "STUDY_GROUP",
       "SUPPORT",
       "TEAMMATES",
+      "THEME",
       "TRAVEL_PLANNING",
       "WORK_ANNOUNCEMENT",
       "WORK_DEMO_GROUP",
@@ -125,36 +140,16 @@ module FacebookAds
       "WORK_EPHEMERAL",
       "WORK_FEEDBACK",
       "WORK_FOR_SALE",
+      "WORK_GARDEN",
       "WORK_LEARNING",
       "WORK_MENTORSHIP",
       "WORK_MULTI_COMPANY",
       "WORK_RECRUITING",
+      "WORK_RESUME_REVIEW",
       "WORK_SOCIAL",
       "WORK_TEAM",
       "WORK_TEAMWORK",
-    ]
-
-    SUGGESTION_CATEGORY = [
-      "CLOSE_FRIENDS",
-      "CLOSE_FRIENDS_GENERIC",
-      "CURRENT_CITY",
-      "EVENT",
-      "FAMILY",
-      "FRIEND_LIST",
-      "GAMES",
-      "LIFE_EVENT",
-      "MESSENGER",
-      "MESSENGER_THREAD",
-      "NEARBY_FRIENDS",
-      "PAGE_ADMIN",
-      "SCHOOL",
-      "SCHOOL_GENERIC",
-      "TOP_PAGE",
-      "WORK",
-      "WORKPLACE",
-      "WORKPLACE_1_1",
-      "WORKPLACE_MANAGER",
-      "WORK_GENERIC",
+      "WORK_VC_CALL",
     ]
 
 
@@ -169,7 +164,6 @@ module FacebookAds
     field :member_count, 'int'
     field :member_request_count, 'int'
     field :name, 'string'
-    field :owner, 'object'
     field :parent, 'object'
     field :permissions, { list: 'string' }
     field :privacy, 'string'
@@ -214,7 +208,15 @@ module FacebookAds
     end
 
     has_edge :feed do |edge|
-      edge.post do |api|
+      edge.get 'Post' do |api|
+        api.has_param :include_hidden, 'bool'
+        api.has_param :q, 'string'
+        api.has_param :show_expired, 'bool'
+        api.has_param :since, 'datetime'
+        api.has_param :until, 'datetime'
+        api.has_param :with, 'string'
+      end
+      edge.post 'Post' do |api|
         api.has_param :actions, 'object'
         api.has_param :adaptive_type, 'string'
         api.has_param :album_id, 'string'
@@ -228,10 +230,10 @@ module FacebookAds
         api.has_param :attached_media, { list: 'object' }
         api.has_param :audience_exp, 'bool'
         api.has_param :backdated_time, 'datetime'
-        api.has_param :backdated_time_granularity, { enum: %w{day hour min month none year }}
+        api.has_param :backdated_time_granularity, { enum: -> { Post::BACKDATED_TIME_GRANULARITY }}
         api.has_param :call_to_action, 'object'
         api.has_param :caption, 'string'
-        api.has_param :checkin_entry_point, { enum: %w{BRANDING_CHECKIN BRANDING_OTHER BRANDING_PHOTO BRANDING_STATUS }}
+        api.has_param :checkin_entry_point, { enum: -> { Post::CHECKIN_ENTRY_POINT }}
         api.has_param :child_attachments, { list: 'object' }
         api.has_param :client_mutation_id, 'string'
         api.has_param :composer_entry_picker, 'string'
@@ -251,7 +253,7 @@ module FacebookAds
         api.has_param :expanded_height, 'int'
         api.has_param :expanded_width, 'int'
         api.has_param :feed_targeting, 'object'
-        api.has_param :formatting, { enum: %w{MARKDOWN PLAINTEXT }}
+        api.has_param :formatting, { enum: -> { Post::FORMATTING }}
         api.has_param :fun_fact_prompt_id, 'int'
         api.has_param :fun_fact_toastee_id, 'int'
         api.has_param :has_nickname, 'bool'
@@ -288,11 +290,11 @@ module FacebookAds
         api.has_param :page_recommendation, 'string'
         api.has_param :picture, 'string'
         api.has_param :place, 'object'
-        api.has_param :place_attachment_setting, { enum: %w{1 2 }}
+        api.has_param :place_attachment_setting, { enum: -> { Post::PLACE_ATTACHMENT_SETTING }}
         api.has_param :place_list, 'string'
         api.has_param :place_list_data, { list: 'string' }
-        api.has_param :post_surfaces_blacklist, { list: { enum: %w{1 2 3 4 5 }} }
-        api.has_param :posting_to_redspace, { enum: %w{disabled enabled }}
+        api.has_param :post_surfaces_blacklist, { list: { enum: -> { Post::POST_SURFACES_BLACKLIST }} }
+        api.has_param :posting_to_redspace, { enum: -> { Post::POSTING_TO_REDSPACE }}
         api.has_param :privacy, 'string'
         api.has_param :prompt_id, 'string'
         api.has_param :prompt_tracking_string, 'string'
@@ -312,7 +314,7 @@ module FacebookAds
         api.has_param :sponsor_relationship, 'int'
         api.has_param :suggested_place_id, 'object'
         api.has_param :tags, { list: 'int' }
-        api.has_param :target_surface, { enum: %w{STORY TIMELINE }}
+        api.has_param :target_surface, { enum: -> { Post::TARGET_SURFACE }}
         api.has_param :targeting, 'object'
         api.has_param :text_format_metadata, 'string'
         api.has_param :text_format_preset_id, 'string'
@@ -322,12 +324,16 @@ module FacebookAds
         api.has_param :time_since_original_post, 'int'
         api.has_param :title, 'string'
         api.has_param :tracking_info, 'string'
-        api.has_param :unpublished_content_type, { enum: %w{ADS_POST DRAFT INLINE_CREATED PUBLISHED SCHEDULED }}
+        api.has_param :unpublished_content_type, { enum: -> { Post::UNPUBLISHED_CONTENT_TYPE }}
         api.has_param :user_selected_tags, 'bool'
         api.has_param :video_start_time_ms, 'int'
         api.has_param :viewer_coordinates, 'object'
         api.has_param :width, 'int'
       end
+    end
+
+    has_edge :files do |edge|
+      edge.get
     end
 
     has_edge :groups do |edge|
@@ -344,8 +350,6 @@ module FacebookAds
         api.has_param :post_requires_admin_approval, 'bool'
         api.has_param :privacy, 'string'
         api.has_param :ref, 'string'
-        api.has_param :suggestion_category, { enum: -> { Group::SUGGESTION_CATEGORY }}
-        api.has_param :suggestion_identifier, 'string'
       end
     end
 
@@ -355,9 +359,9 @@ module FacebookAds
         api.has_param :source, { enum: -> { LiveVideo::SOURCE }}
       end
       edge.post 'LiveVideo' do |api|
-        api.has_param :attribution_app_id, 'string'
         api.has_param :content_tags, { list: 'string' }
         api.has_param :description, 'string'
+        api.has_param :enable_backup_ingest, 'bool'
         api.has_param :encoding_settings, 'string'
         api.has_param :fisheye_video_cropped, 'bool'
         api.has_param :front_z_rotation, 'double'
@@ -365,11 +369,9 @@ module FacebookAds
         api.has_param :is_spherical, 'bool'
         api.has_param :live_encoders, { list: 'string' }
         api.has_param :original_fov, 'int'
-        api.has_param :planned_start_time, 'int'
         api.has_param :privacy, 'string'
         api.has_param :projection, { enum: -> { LiveVideo::PROJECTION }}
         api.has_param :published, 'bool'
-        api.has_param :save_vod, 'bool'
         api.has_param :schedule_custom_profile_image, 'file'
         api.has_param :spatial_audio_format, { enum: -> { LiveVideo::SPATIAL_AUDIO_FORMAT }}
         api.has_param :status, { enum: -> { LiveVideo::STATUS }}
@@ -391,42 +393,6 @@ module FacebookAds
         api.has_param :member, 'int'
         api.has_param :rate, 'int'
         api.has_param :source, 'string'
-      end
-    end
-
-    has_edge :opengraphactionfeed do |edge|
-      edge.post do |api|
-        api.has_param :added, 'string'
-        api.has_param :alias, 'string'
-        api.has_param :android_key_hash, 'string'
-        api.has_param :client_secret, 'string'
-        api.has_param :created_time, 'datetime'
-        api.has_param :end_time, 'datetime'
-        api.has_param :expires_in, 'int'
-        api.has_param :fb_channel, 'string'
-        api.has_param :fb_explicitly_shared, 'bool'
-        api.has_param :image_height, 'int'
-        api.has_param :image_secure_url, 'string'
-        api.has_param :image_type, 'string'
-        api.has_param :image_url, 'string'
-        api.has_param :image_user_generated, 'bool'
-        api.has_param :image_width, 'int'
-        api.has_param :ios_bundle_id, 'string'
-        api.has_param :message, 'string'
-        api.has_param :no_action_link, 'bool'
-        api.has_param :no_feed_story, 'bool'
-        api.has_param :notify, 'bool'
-        api.has_param :place, 'string'
-        api.has_param :preview, 'bool'
-        api.has_param :privacy, 'string'
-        api.has_param :proxied_app_id, 'string'
-        api.has_param :ref, 'string'
-        api.has_param :scrape, 'bool'
-        api.has_param :start_time, 'datetime'
-        api.has_param :tags, { list: 'int' }
-        api.has_param :to, 'string'
-        api.has_param :user_selected_place, 'bool'
-        api.has_param :user_selected_tags, 'bool'
       end
     end
 
@@ -457,6 +423,7 @@ module FacebookAds
         api.has_param :ios_bundle_id, 'string'
         api.has_param :is_explicit_location, 'bool'
         api.has_param :is_explicit_place, 'bool'
+        api.has_param :is_visual_search, 'bool'
         api.has_param :manual_privacy, 'bool'
         api.has_param :message, 'string'
         api.has_param :name, 'string'
@@ -492,10 +459,18 @@ module FacebookAds
 
     has_edge :picture do |edge|
       edge.get 'ProfilePictureSource' do |api|
+        api.has_param :breaking_change, { enum: -> { ProfilePictureSource::BREAKING_CHANGE }}
         api.has_param :height, 'int'
         api.has_param :redirect, 'bool'
         api.has_param :type, { enum: -> { ProfilePictureSource::TYPE }}
         api.has_param :width, 'int'
+      end
+    end
+
+    has_edge :shift_settings do |edge|
+      edge.post do |api|
+        api.has_param :external_id, 'string'
+        api.has_param :shift_feature_setting, { enum: %w{ALL_FEATURES_OFF ALL_FEATURES_ON SHIFT_COVER_ONLY_ON SHIFT_VIEWER_ONLY_ON }}
       end
     end
 
@@ -508,7 +483,6 @@ module FacebookAds
         api.has_param :animated_effect_id, 'int'
         api.has_param :application_id, 'string'
         api.has_param :asked_fun_fact_prompt_id, 'int'
-        api.has_param :attribution_app_id, 'string'
         api.has_param :audio_story_wave_animation_handle, 'string'
         api.has_param :composer_entry_picker, 'string'
         api.has_param :composer_entry_point, 'string'
@@ -519,6 +493,7 @@ module FacebookAds
         api.has_param :composer_type, 'string'
         api.has_param :container_type, { enum: -> { AdVideo::CONTAINER_TYPE }}
         api.has_param :content_category, { enum: -> { AdVideo::CONTENT_CATEGORY }}
+        api.has_param :creative_tools, 'string'
         api.has_param :description, 'string'
         api.has_param :embeddable, 'bool'
         api.has_param :end_offset, 'int'
@@ -553,6 +528,7 @@ module FacebookAds
         api.has_param :original_fov, 'int'
         api.has_param :original_projection_type, { enum: -> { AdVideo::ORIGINAL_PROJECTION_TYPE }}
         api.has_param :publish_event_id, 'int'
+        api.has_param :published, 'bool'
         api.has_param :react_mode_metadata, 'string'
         api.has_param :referenced_sticker_id, 'string'
         api.has_param :replace_video_id, 'string'
@@ -560,6 +536,7 @@ module FacebookAds
         api.has_param :scheduled_publish_time, 'int'
         api.has_param :slideshow_spec, 'hash'
         api.has_param :source, 'string'
+        api.has_param :source_instagram_media_id, 'string'
         api.has_param :spherical, 'bool'
         api.has_param :start_offset, 'int'
         api.has_param :swap_mode, { enum: -> { AdVideo::SWAP_MODE }}
@@ -574,6 +551,7 @@ module FacebookAds
         api.has_param :upload_session_id, 'string'
         api.has_param :upload_setting_properties, 'string'
         api.has_param :video_file_chunk, 'string'
+        api.has_param :video_id_original, 'string'
         api.has_param :video_start_time_ms, 'int'
         api.has_param :waterfall_id, 'string'
       end

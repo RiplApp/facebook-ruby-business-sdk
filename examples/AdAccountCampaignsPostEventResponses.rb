@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'My First Event Campaign',
     objective: 'EVENT_RESPONSES',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

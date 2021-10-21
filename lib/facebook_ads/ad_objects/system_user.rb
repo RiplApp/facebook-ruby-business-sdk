@@ -29,9 +29,19 @@ module FacebookAds
     ROLE = [
       "ADMIN",
       "ADS_RIGHTS_REVIEWER",
+      "DEFAULT",
+      "DEVELOPER",
       "EMPLOYEE",
       "FINANCE_ANALYST",
+      "FINANCE_EDIT",
       "FINANCE_EDITOR",
+      "FINANCE_VIEW",
+      "MANAGE",
+      "PARTNER_CENTER_ADMIN",
+      "PARTNER_CENTER_ANALYST",
+      "PARTNER_CENTER_EDUCATION",
+      "PARTNER_CENTER_MARKETING",
+      "PARTNER_CENTER_OPERATIONS",
     ]
 
 
@@ -50,16 +60,18 @@ module FacebookAds
       edge.get 'AdAccount'
     end
 
+    has_edge :assigned_business_asset_groups do |edge|
+      edge.get 'BusinessAssetGroup' do |api|
+        api.has_param :contained_asset_id, 'string'
+      end
+    end
+
     has_edge :assigned_pages do |edge|
       edge.get 'Page'
     end
 
     has_edge :assigned_product_catalogs do |edge|
       edge.get 'ProductCatalog'
-    end
-
-    has_edge :updated_by do |edge|
-      edge.get 'User'
     end
 
   end

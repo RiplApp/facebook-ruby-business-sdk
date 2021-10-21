@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'Video Views campaign',
     objective: 'VIDEO_VIEWS',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

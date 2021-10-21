@@ -26,14 +26,19 @@ module FacebookAds
   # pull request for this class.
 
   class Url < AdObject
+    SCOPES = [
+      "NEWS_TAB",
+      "NEWS_TAB_DEV_ENV",
+    ]
 
-    field :app_links, 'AppLinks'
+
     field :development_instant_article, 'InstantArticle'
     field :engagement, 'object'
     field :id, 'string'
     field :instant_article, 'InstantArticle'
     field :og_object, 'object'
     field :ownership_permissions, 'object'
+    field :scopes, 'object'
     has_no_delete
 
   end

@@ -53,6 +53,7 @@ module FacebookAds
 
     FEED_TYPE = [
       "AUTO",
+      "AUTOMOTIVE_MODEL",
       "DESTINATION",
       "FLIGHT",
       "HOME_LISTING",
@@ -61,14 +62,48 @@ module FacebookAds
       "LOCAL_INVENTORY",
       "MARKET",
       "MEDIA_TITLE",
+      "OFFER",
       "PRODUCTS",
+      "TRANSACTABLE_ITEMS",
       "VEHICLES",
       "VEHICLE_OFFER",
     ]
 
+    ITEM_SUB_TYPE = [
+      "APPLIANCES",
+      "BABY_FEEDING",
+      "BABY_TRANSPORT",
+      "BEAUTY",
+      "BEDDING",
+      "CAMERAS",
+      "CELL_PHONES_AND_SMART_WATCHES",
+      "CLEANING_SUPPLIES",
+      "CLOTHING",
+      "CLOTHING_ACCESSORIES",
+      "COMPUTERS_AND_TABLETS",
+      "DIAPERING_AND_POTTY_TRAINING",
+      "ELECTRONICS_ACCESSORIES",
+      "FURNITURE",
+      "HEALTH",
+      "HOME_GOODS",
+      "JEWELRY",
+      "NURSERY",
+      "PRINTERS_AND_SCANNERS",
+      "PROJECTORS",
+      "SHOES_AND_FOOTWEAR",
+      "SOFTWARE",
+      "TOYS",
+      "TVS_AND_MONITORS",
+      "VIDEO_GAME_CONSOLES_AND_VIDEO_GAMES",
+      "WATCHES",
+    ]
+
     OVERRIDE_TYPE = [
+      "CATALOG_SEGMENT_CUSTOMIZE_DEFAULT",
       "COUNTRY",
       "LANGUAGE",
+      "LANGUAGE_AND_COUNTRY",
+      "LOCAL",
     ]
 
 
@@ -80,16 +115,23 @@ module FacebookAds
     field :encoding, 'string'
     field :file_name, 'string'
     field :id, 'string'
+    field :item_sub_type, 'string'
     field :latest_upload, 'ProductFeedUpload'
+    field :migrated_from_feed_id, 'string'
     field :name, 'string'
     field :override_type, 'string'
     field :product_count, 'int'
-    field :qualified_product_count, 'int'
     field :quoted_fields_mode, { enum: -> { QUOTED_FIELDS_MODE }}
     field :schedule, 'ProductFeedSchedule'
     field :update_schedule, 'ProductFeedSchedule'
     field :feed_type, { enum: -> { FEED_TYPE }}
+    field :override_value, 'string'
     field :rules, { list: 'string' }
+    field :selected_override_fields, { list: 'string' }
+
+    has_edge :auto_markets do |edge|
+      edge.get
+    end
 
     has_edge :automotive_models do |edge|
       edge.get 'AutomotiveModel' do |api|
@@ -126,6 +168,13 @@ module FacebookAds
       end
     end
 
+    has_edge :media_titles do |edge|
+      edge.get do |api|
+        api.has_param :bulk_pagination, 'bool'
+        api.has_param :filter, 'object'
+      end
+    end
+
     has_edge :products do |edge|
       edge.get 'ProductItem' do |api|
         api.has_param :bulk_pagination, 'bool'
@@ -142,14 +191,29 @@ module FacebookAds
       end
     end
 
+    has_edge :upload_schedules do |edge|
+      edge.get 'ProductFeedSchedule'
+      edge.post 'ProductFeed' do |api|
+        api.has_param :upload_schedule, 'string'
+      end
+    end
+
     has_edge :uploads do |edge|
       edge.get 'ProductFeedUpload'
       edge.post 'ProductFeedUpload' do |api|
+        api.has_param :fbe_external_business_id, 'string'
         api.has_param :file, 'file'
         api.has_param :password, 'string'
         api.has_param :update_only, 'bool'
         api.has_param :url, 'string'
         api.has_param :username, 'string'
+      end
+    end
+
+    has_edge :vehicle_offers do |edge|
+      edge.get 'VehicleOffer' do |api|
+        api.has_param :bulk_pagination, 'bool'
+        api.has_param :filter, 'object'
       end
     end
 

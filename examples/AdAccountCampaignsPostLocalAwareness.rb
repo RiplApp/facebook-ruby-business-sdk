@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'Local ad campaign',
     objective: 'REACH',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

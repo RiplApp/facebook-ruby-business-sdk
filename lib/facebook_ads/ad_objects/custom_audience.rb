@@ -44,7 +44,11 @@ module FacebookAds
       "FLIGHT",
       "HOME_LISTING",
       "HOTEL",
+      "JOB",
+      "LOCAL_SERVICE_BUSINESS",
+      "LOCATION_BASED_ITEM",
       "MEDIA_TITLE",
+      "OFFLINE_PRODUCT",
       "PRODUCT",
       "VEHICLE",
       "VEHICLE_OFFER",
@@ -81,6 +85,7 @@ module FacebookAds
     field :data_source, 'CustomAudienceDataSource'
     field :data_source_types, 'string'
     field :datafile_custom_audience_uploading_status, 'string'
+    field :delete_time, 'int'
     field :delivery_status, 'CustomAudienceStatus'
     field :description, 'string'
     field :excluded_custom_audiences, { list: 'CustomAudience' }
@@ -96,6 +101,7 @@ module FacebookAds
     field :name, 'string'
     field :operation_status, 'CustomAudienceStatus'
     field :opt_out_link, 'string'
+    field :page_deletion_marked_delete_time, 'int'
     field :permission_for_actions, 'AudiencePermissionForActions'
     field :pixel_id, 'string'
     field :regulated_audience_spec, 'LookalikeSpec'
@@ -110,8 +116,6 @@ module FacebookAds
     field :time_content_updated, 'int'
     field :time_created, 'int'
     field :time_updated, 'int'
-    field :accountid, 'string'
-    field :additionalmetadata, 'string'
     field :allowed_domains, { list: 'string' }
     field :associated_audience_id, 'int'
     field :claim_objective, { enum: -> { CLAIM_OBJECTIVE }}
@@ -119,28 +123,17 @@ module FacebookAds
     field :countries, 'string'
     field :creation_params, 'hash'
     field :dataset_id, 'string'
-    field :details, 'string'
     field :enable_fetch_or_create, 'bool'
     field :event_source_group, 'string'
     field :event_sources, { list: 'hash' }
     field :exclusions, { list: 'object' }
-    field :expectedsize, 'int'
-    field :gender, 'string'
     field :inclusions, { list: 'object' }
-    field :isprivate, 'bool'
-    field :is_household_exclusion, 'bool'
     field :list_of_accounts, { list: 'int' }
-    field :maxage, 'int'
-    field :minage, 'int'
     field :origin_audience_id, 'string'
     field :parent_audience_id, 'int'
-    field :partnerid, 'string'
     field :partner_reference_key, 'string'
     field :prefill, 'bool'
     field :product_set_id, 'string'
-    field :source, 'string'
-    field :study_spec, 'hash'
-    field :tags, { list: 'string' }
     field :video_group_ids, { list: 'string' }
 
     has_edge :adaccounts do |edge|
@@ -165,29 +158,6 @@ module FacebookAds
       end
     end
 
-    has_edge :capabilities do |edge|
-      edge.post do |api|
-        api.has_param :accounts_capabilities, 'string'
-        api.has_param :relationship_type, { list: 'string' }
-      end
-    end
-
-    has_edge :data do |edge|
-      edge.post do |api|
-        api.has_param :action_type, { enum: %w{add match optout remove }}
-        api.has_param :batch_seq, 'int'
-        api.has_param :encoding, { enum: %w{md5 plain sha256 }}
-        api.has_param :entries, { list: 'string' }
-        api.has_param :entry_type, { enum: %w{0 1 2 3 4 5 6 }}
-        api.has_param :last_batch_flag, 'bool'
-        api.has_param :session_id, 'int'
-      end
-    end
-
-    has_edge :prefills do |edge|
-      edge.get 'CustomAudiencePrefillState'
-    end
-
     has_edge :sessions do |edge|
       edge.get 'CustomAudienceSession' do |api|
         api.has_param :session_id, 'int'
@@ -198,7 +168,7 @@ module FacebookAds
       edge.get 'CustomAudiencesharedAccountInfo'
     end
 
-    has_edge :upload do |edge|
+    has_edge :users do |edge|
       edge.delete do |api|
         api.has_param :namespace, 'string'
         api.has_param :payload, 'object'
@@ -211,12 +181,7 @@ module FacebookAds
       end
     end
 
-    has_edge :users do |edge|
-      edge.delete do |api|
-        api.has_param :namespace, 'string'
-        api.has_param :payload, 'object'
-        api.has_param :session, 'object'
-      end
+    has_edge :usersreplace do |edge|
       edge.post 'CustomAudience' do |api|
         api.has_param :namespace, 'string'
         api.has_param :payload, 'object'

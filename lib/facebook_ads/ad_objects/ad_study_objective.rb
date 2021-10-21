@@ -29,9 +29,11 @@ module FacebookAds
     TYPE = [
       "BRAND",
       "BRANDLIFT",
+      "CONVERSIONS",
       "FTL",
       "MAE",
       "MAI",
+      "MPC_CONVERSION",
       "NONSALES",
       "PARTNER",
       "SALES",
@@ -39,17 +41,13 @@ module FacebookAds
     ]
 
 
-    field :custom_attributes, { list: 'string' }
     field :id, 'string'
     field :is_primary, 'bool'
     field :last_updated_results, 'string'
     field :name, 'string'
     field :results, { list: 'string' }
     field :type, 'string'
-
-    has_edge :ad_place_page_sets do |edge|
-      edge.get 'AdPlacePageSet'
-    end
+    has_no_delete
 
     has_edge :adspixels do |edge|
       edge.get 'AdsPixel'
@@ -67,8 +65,8 @@ module FacebookAds
       edge.get 'OfflineConversionDataSet'
     end
 
-    has_edge :offsitepixels do |edge|
-      edge.get 'OffsitePixel'
+    has_edge :partnerstudies do |edge|
+      edge.get 'PartnerStudy'
     end
 
   end

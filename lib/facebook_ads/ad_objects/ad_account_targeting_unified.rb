@@ -56,9 +56,10 @@ module FacebookAds
     ]
 
     REGULATED_CATEGORIES = [
+      "CREDIT",
       "EMPLOYMENT",
-      "FINANCING",
       "HOUSING",
+      "ISSUES_ELECTIONS_POLITICS",
       "NONE",
     ]
 
@@ -74,6 +75,7 @@ module FacebookAds
       "brand_safety_content_severity_levels",
       "catalog_based_targeting",
       "cities",
+      "city_keys",
       "college_years",
       "conjunctive_user_adclusters",
       "connections",
@@ -93,12 +95,14 @@ module FacebookAds
       "effective_facebook_positions",
       "effective_instagram_positions",
       "effective_messenger_positions",
+      "effective_oculus_positions",
       "effective_publisher_platforms",
       "effective_whatsapp_positions",
       "engagement_specs",
       "ethnic_affinity",
       "exclude_previous_days",
       "exclude_reached_since",
+      "excluded_brand_safety_content_types",
       "excluded_connections",
       "excluded_custom_audiences",
       "excluded_dynamic_audience_ids",
@@ -127,13 +131,17 @@ module FacebookAds
       "home_type",
       "home_value",
       "household_composition",
+      "id",
       "income",
       "industries",
+      "instagram_hashtags",
       "instagram_positions",
+      "instream_video_skippable_excluded",
       "instream_video_sponsorship_placements",
       "interest_defaults_source",
       "interested_in",
       "interests",
+      "is_instagram_destination_ad",
       "is_whatsapp_destination_ad",
       "keywords",
       "life_events",
@@ -146,6 +154,7 @@ module FacebookAds
       "mobile_device_model",
       "moms",
       "net_worth",
+      "oculus_positions",
       "office_type",
       "page_types",
       "place_page_set_ids",
@@ -154,13 +163,14 @@ module FacebookAds
       "product_audience_specs",
       "prospecting_audience",
       "publisher_platforms",
-      "publisher_visibility_categories",
       "radius",
+      "region_keys",
       "regions",
       "relationship_statuses",
       "rtb_flag",
       "site_category",
       "targeting_optimization",
+      "targeting_relaxation_types",
       "timezones",
       "topic",
       "trending",
@@ -177,11 +187,30 @@ module FacebookAds
       "zips",
     ]
 
-    MODE = [
-      "best_performing",
-      "recently_used",
-      "related",
-      "suggestions",
+    APP_STORE = [
+      "amazon_app_store",
+      "apk_mirror",
+      "apk_monk",
+      "apk_pure",
+      "aptoide_a1_store",
+      "bemobi_mobile_store",
+      "does_not_exist",
+      "fb_android_store",
+      "fb_canvas",
+      "fb_gameroom",
+      "galaxy_store",
+      "google_play",
+      "instant_game",
+      "itunes",
+      "itunes_ipad",
+      "oculus_app_store",
+      "oppo",
+      "roku_channel_store",
+      "uptodown",
+      "vivo",
+      "windows_10_store",
+      "windows_store",
+      "xiaomi",
     ]
 
     OBJECTIVE = [
@@ -198,7 +227,15 @@ module FacebookAds
       "POST_ENGAGEMENT",
       "PRODUCT_CATALOG_SALES",
       "REACH",
+      "STORE_VISITS",
       "VIDEO_VIEWS",
+    ]
+
+    MODE = [
+      "best_performing",
+      "recently_used",
+      "related",
+      "suggestions",
     ]
 
 
