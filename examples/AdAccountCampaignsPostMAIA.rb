@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'Mobile App Installs Campaign',
     objective: 'APP_INSTALLS',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

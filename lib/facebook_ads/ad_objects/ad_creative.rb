@@ -26,12 +26,6 @@ module FacebookAds
   # pull request for this class.
 
   class AdCreative < AdObject
-    APPLINK_TREATMENT = [
-      "deeplink_with_appstore_fallback",
-      "deeplink_with_web_fallback",
-      "web_only",
-    ]
-
     CALL_TO_ACTION_TYPE = [
       "ADD_TO_CART",
       "APPLY_NOW",
@@ -41,6 +35,7 @@ module FacebookAds
       "BUY_TICKETS",
       "CALL",
       "CALL_ME",
+      "CALL_NOW",
       "CONTACT",
       "CONTACT_US",
       "DONATE",
@@ -50,6 +45,8 @@ module FacebookAds
       "FIND_A_GROUP",
       "FIND_YOUR_GROUPS",
       "FOLLOW_NEWS_STORYLINE",
+      "FOLLOW_PAGE",
+      "FOLLOW_USER",
       "GET_DIRECTIONS",
       "GET_OFFER",
       "GET_OFFER_VIEW",
@@ -67,20 +64,30 @@ module FacebookAds
       "NO_BUTTON",
       "OPEN_LINK",
       "ORDER_NOW",
+      "PAY_TO_ACCESS",
       "PLAY_GAME",
+      "PURCHASE_GIFT_CARDS",
       "RECORD_NOW",
+      "REFER_FRIENDS",
+      "REQUEST_TIME",
       "SAY_THANKS",
       "SEE_MORE",
       "SELL_NOW",
+      "SEND_A_GIFT",
+      "SEND_GIFT_MONEY",
       "SHARE",
       "SHOP_NOW",
       "SIGN_UP",
       "SOTTO_SUBSCRIBE",
+      "START_ORDER",
       "SUBSCRIBE",
+      "SWIPE_UP_PRODUCT",
+      "SWIPE_UP_SHOP",
       "UPDATE_APP",
       "USE_APP",
       "USE_MOBILE_APP",
       "VIDEO_ANNOTATION",
+      "VIDEO_CALL",
       "VISIT_PAGES_FEED",
       "WATCH_MORE",
       "WATCH_VIDEO",
@@ -96,6 +103,8 @@ module FacebookAds
       "OFFER",
       "PAGE",
       "PHOTO",
+      "POST_DELETED",
+      "PRIVACY_CHECK_FAIL",
       "SHARE",
       "STATUS",
       "STORE_ITEM",
@@ -105,6 +114,15 @@ module FacebookAds
     STATUS = [
       "ACTIVE",
       "DELETED",
+      "IN_PROCESS",
+      "WITH_ISSUES",
+    ]
+
+    APPLINK_TREATMENT = [
+      "automatic",
+      "deeplink_with_appstore_fallback",
+      "deeplink_with_web_fallback",
+      "web_only",
     ]
 
     AUTHORIZATION_CATEGORY = [
@@ -130,6 +148,11 @@ module FacebookAds
       "STORY_OWNER",
     ]
 
+    INSTANT_CHECKOUT_SETTING = [
+      "off",
+      "on",
+    ]
+
     OPERATOR = [
       "ALL",
       "ANY",
@@ -139,7 +162,7 @@ module FacebookAds
     field :account_id, 'string'
     field :actor_id, 'string'
     field :adlabels, { list: 'AdLabel' }
-    field :applink_treatment, { enum: -> { APPLINK_TREATMENT }}
+    field :applink_treatment, 'string'
     field :asset_feed_spec, 'AdAssetFeedSpec'
     field :authorization_category, 'string'
     field :auto_update, 'bool'
@@ -152,6 +175,7 @@ module FacebookAds
     field :destination_set_id, 'string'
     field :dynamic_ad_voice, 'string'
     field :effective_authorization_category, 'string'
+    field :effective_instagram_media_id, 'string'
     field :effective_instagram_story_id, 'string'
     field :effective_object_story_id, 'string'
     field :enable_direct_install, 'bool'
@@ -163,8 +187,10 @@ module FacebookAds
     field :instagram_actor_id, 'string'
     field :instagram_permalink_url, 'string'
     field :instagram_story_id, 'string'
+    field :instagram_user_id, 'string'
     field :interactive_components_spec, 'AdCreativeInteractiveComponentsSpec'
     field :link_deep_link_url, 'string'
+    field :link_destination_display_url, 'string'
     field :link_og_id, 'string'
     field :link_url, 'string'
     field :messenger_sponsored_message, 'string'
@@ -181,6 +207,7 @@ module FacebookAds
     field :portrait_customizations, 'AdCreativePortraitCustomizations'
     field :product_set_id, 'string'
     field :recommender_settings, 'AdCreativeRecommenderSettings'
+    field :source_instagram_media_id, 'string'
     field :status, { enum: -> { STATUS }}
     field :template_url, 'string'
     field :template_url_spec, 'AdCreativeTemplateUrlSpec'
@@ -191,15 +218,17 @@ module FacebookAds
     field :video_id, 'string'
     field :call_to_action, 'object'
     field :image_file, 'string'
+    field :instant_checkout_setting, { enum: -> { INSTANT_CHECKOUT_SETTING }}
     field :is_dco_internal, 'bool'
 
     has_edge :adlabels do |edge|
-      edge.delete do |api|
-        api.has_param :adlabels, { list: 'object' }
-      end
       edge.post 'AdCreative' do |api|
         api.has_param :adlabels, { list: 'object' }
       end
+    end
+
+    has_edge :creative_insights do |edge|
+      edge.get 'AdCreativeInsights'
     end
 
     has_edge :previews do |edge|
@@ -210,7 +239,6 @@ module FacebookAds
         api.has_param :dynamic_customization, 'object'
         api.has_param :end_date, 'datetime'
         api.has_param :height, 'int'
-        api.has_param :interactive, 'bool'
         api.has_param :locale, 'string'
         api.has_param :place_page_id, 'int'
         api.has_param :post, 'object'

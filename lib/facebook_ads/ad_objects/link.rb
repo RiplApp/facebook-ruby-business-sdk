@@ -40,6 +40,7 @@ module FacebookAds
     field :privacy, 'Privacy'
     field :via, 'object'
     has_no_post
+    has_no_delete
 
     has_edge :comments do |edge|
       edge.post 'Comment' do |api|
@@ -59,8 +60,8 @@ module FacebookAds
       end
     end
 
-    has_edge :sharedposts do |edge|
-      edge.get 'Post'
+    has_edge :likes do |edge|
+      edge.get 'Profile'
     end
 
   end

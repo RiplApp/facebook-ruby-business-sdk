@@ -33,4 +33,5 @@ campaigns = ad_account.campaigns.create({
     name: 'My campaign',
     objective: 'LINK_CLICKS',
     status: 'PAUSED',
+    special_ad_categories: [],
 })

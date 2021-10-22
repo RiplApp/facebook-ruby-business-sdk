@@ -35,6 +35,7 @@ module FacebookAds
       "BUY_TICKETS",
       "CALL",
       "CALL_ME",
+      "CALL_NOW",
       "CONTACT",
       "CONTACT_US",
       "DONATE",
@@ -44,6 +45,8 @@ module FacebookAds
       "FIND_A_GROUP",
       "FIND_YOUR_GROUPS",
       "FOLLOW_NEWS_STORYLINE",
+      "FOLLOW_PAGE",
+      "FOLLOW_USER",
       "GET_DIRECTIONS",
       "GET_OFFER",
       "GET_OFFER_VIEW",
@@ -61,20 +64,30 @@ module FacebookAds
       "NO_BUTTON",
       "OPEN_LINK",
       "ORDER_NOW",
+      "PAY_TO_ACCESS",
       "PLAY_GAME",
+      "PURCHASE_GIFT_CARDS",
       "RECORD_NOW",
+      "REFER_FRIENDS",
+      "REQUEST_TIME",
       "SAY_THANKS",
       "SEE_MORE",
       "SELL_NOW",
+      "SEND_A_GIFT",
+      "SEND_GIFT_MONEY",
       "SHARE",
       "SHOP_NOW",
       "SIGN_UP",
       "SOTTO_SUBSCRIBE",
+      "START_ORDER",
       "SUBSCRIBE",
+      "SWIPE_UP_PRODUCT",
+      "SWIPE_UP_SHOP",
       "UPDATE_APP",
       "USE_APP",
       "USE_MOBILE_APP",
       "VIDEO_ANNOTATION",
+      "VIDEO_CALL",
       "VISIT_PAGES_FEED",
       "WATCH_MORE",
       "WATCH_VIDEO",
@@ -89,12 +102,19 @@ module FacebookAds
     field :autotranslate, { list: 'string' }
     field :bodies, { list: 'AdAssetFeedSpecBody' }
     field :call_to_action_types, { list: { enum: -> { CALL_TO_ACTION_TYPES }} }
+    field :call_to_actions, { list: 'object' }
     field :captions, { list: 'AdAssetFeedSpecCaption' }
+    field :carousels, { list: 'object' }
     field :descriptions, { list: 'AdAssetFeedSpecDescription' }
+    field :events, { list: 'object' }
     field :groups, { list: 'AdAssetFeedSpecGroupRule' }
     field :images, { list: 'AdAssetFeedSpecImage' }
     field :link_urls, { list: 'AdAssetFeedSpecLinkUrl' }
+    field :offer_ids, { list: 'object' }
+    field :onsite_destinations, { list: 'object' }
     field :optimization_type, 'string'
+    field :phone_data_ids, { list: 'object' }
+    field :posts, { list: 'object' }
     field :titles, { list: 'AdAssetFeedSpecTitle' }
     field :videos, { list: 'AdAssetFeedSpecVideo' }
     has_no_id

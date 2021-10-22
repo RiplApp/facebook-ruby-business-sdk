@@ -35,6 +35,51 @@ module FacebookAds
       "year",
     ]
 
+    CHECKIN_ENTRY_POINT = [
+      "BRANDING_CHECKIN",
+      "BRANDING_OTHER",
+      "BRANDING_PHOTO",
+      "BRANDING_STATUS",
+    ]
+
+    FORMATTING = [
+      "MARKDOWN",
+      "PLAINTEXT",
+    ]
+
+    PLACE_ATTACHMENT_SETTING = [
+      "1",
+      "2",
+    ]
+
+    POST_SURFACES_BLACKLIST = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+    ]
+
+    POSTING_TO_REDSPACE = [
+      "disabled",
+      "enabled",
+    ]
+
+    TARGET_SURFACE = [
+      "STORY",
+      "TIMELINE",
+    ]
+
+    UNPUBLISHED_CONTENT_TYPE = [
+      "ADS_POST",
+      "DRAFT",
+      "INLINE_CREATED",
+      "PUBLISHED",
+      "REVIEWABLE_BRANDED_CONTENT",
+      "SCHEDULED",
+      "SCHEDULED_RECURRING",
+    ]
+
     FEED_STORY_VISIBILITY = [
       "hidden",
       "visible",
@@ -53,6 +98,7 @@ module FacebookAds
     field :application, 'Application'
     field :backdated_time, 'datetime'
     field :call_to_action, 'object'
+    field :can_reply_privately, 'bool'
     field :caption, 'string'
     field :child_attachments, { list: 'string' }
     field :comments_mirroring_domain, 'string'
@@ -73,11 +119,12 @@ module FacebookAds
     field :is_eligible_for_promotion, 'bool'
     field :is_expired, 'bool'
     field :is_hidden, 'bool'
+    field :is_inline_created, 'bool'
     field :is_instagram_eligible, 'bool'
     field :is_popular, 'bool'
     field :is_published, 'bool'
     field :is_spherical, 'bool'
-    field :link, 'string'
+    field :link, 'object'
     field :message, 'string'
     field :message_tags, { list: 'string' }
     field :multi_share_end_card, 'bool'
@@ -153,29 +200,10 @@ module FacebookAds
         api.has_param :nectar_module, 'string'
         api.has_param :tracking, 'string'
       end
-      edge.get 'Profile'
       edge.post 'Post' do |api|
         api.has_param :feedback_source, 'string'
         api.has_param :nectar_module, 'string'
         api.has_param :tracking, 'string'
-      end
-    end
-
-    has_edge :promotions do |edge|
-      edge.post do |api|
-        api.has_param :ad_account_id, 'string'
-        api.has_param :ad_conversion_pixel_id, 'int'
-        api.has_param :audience, { enum: %w{AUTO_LOOKALIKE AUTO_PAGE_LOOKALIKE AUTO_TARGETING CREATE_NEW CUSTOM_AUDIENCE DISTRICT EVENT_CUSTOM_AUDIENCES EVENT_ENGAGEMENT FANS GROUPER IG_PROMOTED_POST_AUTO LOCAL LOOKALIKE MULT_CUSTOM_AUDIENCES NCPP SAVED_AUDIENCE SMART_AUDIENCE }}
-        api.has_param :audience_id, 'string'
-        api.has_param :bid_amount, 'int'
-        api.has_param :budget, 'int'
-        api.has_param :cta_type, { enum: %w{ADD_TO_CART APPLY_NOW BOOK_TRAVEL BUY BUY_NOW BUY_TICKETS CALL CALL_ME CONTACT CONTACT_US DONATE DONATE_NOW DOWNLOAD EVENT_RSVP FIND_A_GROUP FIND_YOUR_GROUPS FOLLOW_NEWS_STORYLINE GET_DIRECTIONS GET_OFFER GET_OFFER_VIEW GET_QUOTE GET_SHOWTIMES INSTALL_APP INSTALL_MOBILE_APP LEARN_MORE LIKE_PAGE LISTEN_MUSIC LISTEN_NOW MESSAGE_PAGE MOBILE_DOWNLOAD MOMENTS NO_BUTTON OPEN_LINK ORDER_NOW PLAY_GAME RECORD_NOW SAY_THANKS SEE_MORE SELL_NOW SHARE SHOP_NOW SIGN_UP SOTTO_SUBSCRIBE SUBSCRIBE UPDATE_APP USE_APP USE_MOBILE_APP VIDEO_ANNOTATION VISIT_PAGES_FEED WATCH_MORE WATCH_VIDEO WHATSAPP_MESSAGE WOODHENGE_SUPPORT }}
-        api.has_param :currency, 'string'
-        api.has_param :flow_id, 'string'
-        api.has_param :placement, 'string'
-        api.has_param :start_time, 'int'
-        api.has_param :stop_time, 'int'
-        api.has_param :targeting, 'Targeting'
       end
     end
 
@@ -185,12 +213,12 @@ module FacebookAds
       end
     end
 
-    has_edge :seen do |edge|
-      edge.get 'User'
-    end
-
     has_edge :sharedposts do |edge|
       edge.get 'Post'
+    end
+
+    has_edge :sponsor_tags do |edge|
+      edge.get 'Page'
     end
 
     has_edge :to do |edge|

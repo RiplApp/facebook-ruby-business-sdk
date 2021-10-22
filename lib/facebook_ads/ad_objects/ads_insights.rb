@@ -33,6 +33,7 @@ module FacebookAds
       "28d_view",
       "7d_click",
       "7d_view",
+      "dda",
       "default",
     ]
 
@@ -52,11 +53,13 @@ module FacebookAds
     ACTION_REPORT_TIME = [
       "conversion",
       "impression",
+      "mixed",
     ]
 
     BREAKDOWNS = [
       "ad_format_asset",
       "age",
+      "app_id",
       "body_asset",
       "call_to_action_asset",
       "country",
@@ -75,6 +78,7 @@ module FacebookAds
       "product_id",
       "publisher_platform",
       "region",
+      "skan_conversion_id",
       "title_asset",
       "video_asset",
     ]
@@ -91,7 +95,7 @@ module FacebookAds
       "last_week_mon_sun",
       "last_week_sun_sat",
       "last_year",
-      "lifetime",
+      "maximum",
       "this_month",
       "this_quarter",
       "this_week_mon_today",
@@ -127,30 +131,37 @@ module FacebookAds
     field :account_name, 'string'
     field :action_values, { list: 'AdsActionStats' }
     field :actions, { list: 'AdsActionStats' }
-    field :activity_recency, 'string'
+    field :ad_bid_value, 'string'
     field :ad_click_actions, { list: 'AdsActionStats' }
-    field :ad_format_asset, 'string'
     field :ad_id, 'string'
     field :ad_impression_actions, { list: 'AdsActionStats' }
     field :ad_name, 'string'
+    field :adset_bid_value, 'string'
+    field :adset_end, 'string'
     field :adset_id, 'string'
     field :adset_name, 'string'
-    field :age, 'string'
+    field :adset_start, 'string'
     field :age_targeting, 'string'
+    field :attribution_setting, 'string'
     field :auction_bid, 'string'
     field :auction_competitiveness, 'string'
     field :auction_max_competitor_bid, 'string'
-    field :body_asset, 'object'
     field :buying_type, 'string'
-    field :call_to_action_asset, 'object'
     field :campaign_id, 'string'
     field :campaign_name, 'string'
     field :canvas_avg_view_percent, 'string'
     field :canvas_avg_view_time, 'string'
+    field :catalog_segment_actions, { list: 'AdsActionStats' }
+    field :catalog_segment_value, { list: 'AdsActionStats' }
+    field :catalog_segment_value_mobile_purchase_roas, { list: 'AdsActionStats' }
+    field :catalog_segment_value_omni_purchase_roas, { list: 'AdsActionStats' }
+    field :catalog_segment_value_website_purchase_roas, { list: 'AdsActionStats' }
     field :clicks, 'string'
+    field :conversion_rate_ranking, 'string'
     field :conversion_values, { list: 'AdsActionStats' }
     field :conversions, { list: 'AdsActionStats' }
-    field :cost_per_10_sec_video_view, { list: 'AdsActionStats' }
+    field :converted_product_quantity, { list: 'AdsActionStats' }
+    field :converted_product_value, { list: 'AdsActionStats' }
     field :cost_per_15_sec_video_view, { list: 'AdsActionStats' }
     field :cost_per_2_sec_continuous_video_view, { list: 'AdsActionStats' }
     field :cost_per_action_type, { list: 'AdsActionStats' }
@@ -168,19 +179,16 @@ module FacebookAds
     field :cost_per_unique_conversion, { list: 'AdsActionStats' }
     field :cost_per_unique_inline_link_click, 'string'
     field :cost_per_unique_outbound_click, { list: 'AdsActionStats' }
-    field :country, 'string'
     field :cpc, 'string'
     field :cpm, 'string'
     field :cpp, 'string'
     field :created_time, 'string'
-    field :creative_fingerprint, 'string'
     field :ctr, 'string'
     field :date_start, 'string'
     field :date_stop, 'string'
     field :dda_countby_convs, 'string'
-    field :description_asset, 'object'
-    field :device_platform, 'string'
-    field :dma, 'string'
+    field :dda_results, { list: 'object' }
+    field :engagement_rate_ranking, 'string'
     field :estimated_ad_recall_rate, 'string'
     field :estimated_ad_recall_rate_lower_bound, 'string'
     field :estimated_ad_recall_rate_upper_bound, 'string'
@@ -188,40 +196,35 @@ module FacebookAds
     field :estimated_ad_recallers_lower_bound, 'string'
     field :estimated_ad_recallers_upper_bound, 'string'
     field :frequency, 'string'
-    field :frequency_value, 'string'
-    field :gender, 'string'
+    field :full_view_impressions, 'string'
+    field :full_view_reach, 'string'
     field :gender_targeting, 'string'
-    field :hourly_stats_aggregated_by_advertiser_time_zone, 'string'
-    field :hourly_stats_aggregated_by_audience_time_zone, 'string'
-    field :image_asset, 'object'
-    field :impression_device, 'string'
     field :impressions, 'string'
-    field :impressions_dummy, 'string'
     field :inline_link_click_ctr, 'string'
     field :inline_link_clicks, 'string'
     field :inline_post_engagement, 'string'
+    field :instant_experience_clicks_to_open, 'string'
+    field :instant_experience_clicks_to_start, 'string'
+    field :instant_experience_outbound_clicks, { list: 'AdsActionStats' }
+    field :interactive_component_tap, { list: 'AdsActionStats' }
     field :labels, 'string'
-    field :link_url_asset, 'object'
     field :location, 'string'
-    field :media_asset, 'object'
     field :mobile_app_purchase_roas, { list: 'AdsActionStats' }
     field :objective, 'string'
+    field :optimization_goal, 'string'
     field :outbound_clicks, { list: 'AdsActionStats' }
     field :outbound_clicks_ctr, { list: 'AdsActionStats' }
-    field :place_page_id, 'string'
     field :place_page_name, 'string'
-    field :placement, 'string'
-    field :platform_position, 'string'
-    field :product_id, 'string'
-    field :publisher_platform, 'string'
     field :purchase_roas, { list: 'AdsActionStats' }
+    field :qualifying_question_qualify_answer_rate, 'string'
+    field :quality_ranking, 'string'
+    field :quality_score_ectr, 'string'
+    field :quality_score_ecvr, 'string'
+    field :quality_score_organic, 'string'
     field :reach, 'string'
-    field :region, 'string'
-    field :relevance_score, 'AdgroupRelevanceScore'
-    field :rule_asset, 'object'
     field :social_spend, 'string'
     field :spend, 'string'
-    field :title_asset, 'object'
+    field :total_postbacks, 'string'
     field :unique_actions, { list: 'AdsActionStats' }
     field :unique_clicks, 'string'
     field :unique_conversions, { list: 'AdsActionStats' }
@@ -232,14 +235,10 @@ module FacebookAds
     field :unique_outbound_clicks, { list: 'AdsActionStats' }
     field :unique_outbound_clicks_ctr, { list: 'AdsActionStats' }
     field :unique_video_continuous_2_sec_watched_actions, { list: 'AdsActionStats' }
-    field :unique_video_view_10_sec, { list: 'AdsActionStats' }
     field :unique_video_view_15_sec, { list: 'AdsActionStats' }
     field :updated_time, 'string'
-    field :video_10_sec_watched_actions, { list: 'AdsActionStats' }
     field :video_15_sec_watched_actions, { list: 'AdsActionStats' }
     field :video_30_sec_watched_actions, { list: 'AdsActionStats' }
-    field :video_asset, 'object'
-    field :video_avg_percent_watched_actions, { list: 'AdsActionStats' }
     field :video_avg_time_watched_actions, { list: 'AdsActionStats' }
     field :video_continuous_2_sec_watched_actions, { list: 'AdsActionStats' }
     field :video_p100_watched_actions, { list: 'AdsActionStats' }

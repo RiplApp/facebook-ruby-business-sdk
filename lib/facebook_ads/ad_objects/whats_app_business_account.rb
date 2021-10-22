@@ -26,10 +26,20 @@ module FacebookAds
   # pull request for this class.
 
   class WhatsAppBusinessAccount < AdObject
+    TASKS = [
+      "DEVELOP",
+      "MANAGE",
+      "MANAGE_PHONE",
+      "MANAGE_TEMPLATES",
+      "MESSAGING",
+      "VIEW_COST",
+    ]
+
     CATEGORY = [
       "ACCOUNT_UPDATE",
       "ALERT_UPDATE",
       "APPOINTMENT_UPDATE",
+      "AUTO_REPLY",
       "ISSUE_RESOLUTION",
       "PAYMENT_UPDATE",
       "PERSONAL_FINANCE_UPDATE",
@@ -40,21 +50,33 @@ module FacebookAds
     ]
 
 
+    field :account_review_status, 'string'
     field :analytics, 'object'
+    field :creation_time, 'int'
     field :currency, 'string'
-    field :eligible_for_sending_notifications, 'bool'
     field :id, 'string'
-    field :ineligible_for_sending_notifications_reason, 'string'
     field :message_template_namespace, 'string'
     field :name, 'string'
     field :on_behalf_of_business_info, 'object'
+    field :owner_business_info, 'object'
+    field :primary_funding_id, 'string'
+    field :purchase_order_number, 'string'
     field :status, 'string'
     field :timezone_id, 'string'
     has_no_post
     has_no_delete
 
     has_edge :assigned_users do |edge|
-      edge.get 'AssignedUser'
+      edge.delete do |api|
+        api.has_param :user, 'int'
+      end
+      edge.get 'AssignedUser' do |api|
+        api.has_param :business, 'string'
+      end
+      edge.post 'WhatsAppBusinessAccount' do |api|
+        api.has_param :tasks, { list: { enum: -> { WhatsAppBusinessAccount::TASKS }} }
+        api.has_param :user, 'int'
+      end
     end
 
     has_edge :message_templates do |edge|
@@ -67,7 +89,7 @@ module FacebookAds
         api.has_param :language, { list: 'string' }
         api.has_param :name, 'string'
         api.has_param :name_or_content, 'string'
-        api.has_param :status, { list: { enum: %w{APPROVED DELETED PENDING PENDING_DELETION REJECTED }} }
+        api.has_param :status, { list: { enum: %w{APPROVED DELETED DISABLED IN_APPEAL PENDING PENDING_DELETION REJECTED }} }
       end
       edge.post 'WhatsAppBusinessAccount' do |api|
         api.has_param :category, { enum: -> { WhatsAppBusinessAccount::CATEGORY }}
@@ -79,6 +101,27 @@ module FacebookAds
 
     has_edge :phone_numbers do |edge|
       edge.get
+      edge.post do |api|
+        api.has_param :cc, 'string'
+        api.has_param :migrate_phone_number, 'bool'
+        api.has_param :phone_number, 'string'
+      end
+    end
+
+    has_edge :product_catalogs do |edge|
+      edge.delete do |api|
+        api.has_param :catalog_id, 'string'
+      end
+      edge.get 'ProductCatalog'
+      edge.post 'ProductCatalog' do |api|
+        api.has_param :catalog_id, 'string'
+      end
+    end
+
+    has_edge :subscribed_apps do |edge|
+      edge.delete
+      edge.get
+      edge.post 'WhatsAppBusinessAccount'
     end
 
   end

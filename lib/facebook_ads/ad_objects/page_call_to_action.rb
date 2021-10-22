@@ -28,9 +28,15 @@ module FacebookAds
   class PageCallToAction < AdObject
     ANDROID_DESTINATION_TYPE = [
       "APP_DEEPLINK",
+      "BECOME_A_VOLUNTEER",
       "EMAIL",
       "FACEBOOK_APP",
+      "FOLLOW",
+      "MARKETPLACE_INVENTORY_PAGE",
+      "MENU_ON_FACEBOOK",
       "MESSENGER",
+      "MINI_SHOP",
+      "MOBILE_CENTER",
       "NONE",
       "PHONE_CALL",
       "SHOP_ON_FACEBOOK",
@@ -39,9 +45,14 @@ module FacebookAds
 
     IPHONE_DESTINATION_TYPE = [
       "APP_DEEPLINK",
+      "BECOME_A_VOLUNTEER",
       "EMAIL",
       "FACEBOOK_APP",
+      "FOLLOW",
+      "MARKETPLACE_INVENTORY_PAGE",
+      "MENU_ON_FACEBOOK",
       "MESSENGER",
+      "MINI_SHOP",
       "NONE",
       "PHONE_CALL",
       "SHOP_ON_FACEBOOK",
@@ -49,6 +60,7 @@ module FacebookAds
     ]
 
     TYPE = [
+      "BECOME_A_VOLUNTEER",
       "BOOK_APPOINTMENT",
       "BOOK_NOW",
       "BUY_TICKETS",
@@ -57,6 +69,7 @@ module FacebookAds
       "CONTACT_US",
       "DONATE_NOW",
       "EMAIL",
+      "FOLLOW_PAGE",
       "GET_DIRECTIONS",
       "GET_OFFER",
       "GET_OFFER_VIEW",
@@ -65,23 +78,32 @@ module FacebookAds
       "LISTEN",
       "LOCAL_DEV_PLATFORM",
       "MESSAGE",
+      "MOBILE_CENTER",
       "OPEN_APP",
+      "ORDER_FOOD",
       "PLAY_MUSIC",
       "PLAY_NOW",
+      "PURCHASE_GIFT_CARDS",
       "REQUEST_APPOINTMENT",
       "REQUEST_QUOTE",
       "SHOP_NOW",
       "SHOP_ON_FACEBOOK",
       "SIGN_UP",
+      "VIEW_INVENTORY",
+      "VIEW_MENU",
+      "VIEW_SHOP",
       "VISIT_GROUP",
       "WATCH_NOW",
       "WOODHENGE_SUPPORT",
     ]
 
     WEB_DESTINATION_TYPE = [
+      "BECOME_A_VOLUNTEER",
       "BECOME_SUPPORTER",
       "EMAIL",
+      "FOLLOW",
       "MESSENGER",
+      "MOBILE_CENTER",
       "NONE",
       "SHOP_ON_FACEBOOK",
       "WEBSITE",
@@ -107,8 +129,6 @@ module FacebookAds
     field :updated_time, 'datetime'
     field :web_destination_type, 'string'
     field :web_url, 'string'
-    has_no_post
-    has_no_delete
 
   end
 end

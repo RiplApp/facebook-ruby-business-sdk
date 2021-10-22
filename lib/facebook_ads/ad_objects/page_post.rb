@@ -26,6 +26,10 @@ module FacebookAds
   # pull request for this class.
 
   class PagePost < AdObject
+    WITH = [
+      "LOCATION",
+    ]
+
     BACKDATED_TIME_GRANULARITY = [
       "day",
       "hour",
@@ -33,53 +37,6 @@ module FacebookAds
       "month",
       "none",
       "year",
-    ]
-
-    CHECKIN_ENTRY_POINT = [
-      "BRANDING_CHECKIN",
-      "BRANDING_OTHER",
-      "BRANDING_PHOTO",
-      "BRANDING_STATUS",
-    ]
-
-    FORMATTING = [
-      "MARKDOWN",
-      "PLAINTEXT",
-    ]
-
-    PLACE_ATTACHMENT_SETTING = [
-      "1",
-      "2",
-    ]
-
-    POST_SURFACES_BLACKLIST = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-    ]
-
-    POSTING_TO_REDSPACE = [
-      "disabled",
-      "enabled",
-    ]
-
-    TARGET_SURFACE = [
-      "STORY",
-      "TIMELINE",
-    ]
-
-    UNPUBLISHED_CONTENT_TYPE = [
-      "ADS_POST",
-      "DRAFT",
-      "INLINE_CREATED",
-      "PUBLISHED",
-      "SCHEDULED",
-    ]
-
-    WITH = [
-      "LOCATION",
     ]
 
     FEED_STORY_VISIBILITY = [
@@ -119,6 +76,7 @@ module FacebookAds
     field :is_eligible_for_promotion, 'bool'
     field :is_expired, 'bool'
     field :is_hidden, 'bool'
+    field :is_inline_created, 'bool'
     field :is_instagram_eligible, 'bool'
     field :is_popular, 'bool'
     field :is_published, 'bool'
@@ -208,12 +166,12 @@ module FacebookAds
       end
     end
 
-    has_edge :seen do |edge|
-      edge.get 'User'
-    end
-
     has_edge :sharedposts do |edge|
       edge.get 'Post'
+    end
+
+    has_edge :sponsor_tags do |edge|
+      edge.get 'Page'
     end
 
     has_edge :to do |edge|

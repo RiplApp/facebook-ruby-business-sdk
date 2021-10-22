@@ -45,13 +45,15 @@ module FacebookAds
       "PAGE_ENGAGEMENT",
       "PAGE_LIKES",
       "POST_ENGAGEMENT",
+      "QUALITY_CALL",
+      "QUALITY_LEAD",
       "REACH",
       "REPLIES",
       "SOCIAL_IMPRESSIONS",
       "THRUPLAY",
       "TWO_SECOND_CONTINUOUS_VIDEO_VIEWS",
       "VALUE",
-      "VIDEO_VIEWS",
+      "VISIT_INSTAGRAM_PROFILE",
     ]
 
 
@@ -59,6 +61,7 @@ module FacebookAds
     field :estimate_dau, 'int'
     field :estimate_mau, 'int'
     field :estimate_ready, 'bool'
+    field :targeting_optimization_types, 'hash'
     has_no_id
     has_no_get
     has_no_post

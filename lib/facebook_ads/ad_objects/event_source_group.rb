@@ -26,11 +26,6 @@ module FacebookAds
   # pull request for this class.
 
   class EventSourceGroup < AdObject
-    TASKS = [
-      "ANALYZE",
-      "ANALYZE_WITH_LIMITATIONS",
-    ]
-
 
     field :business, 'Business'
     field :event_sources, { list: 'ExternalEventSource' }
@@ -42,19 +37,6 @@ module FacebookAds
       edge.get 'AdAccount'
       edge.post 'EventSourceGroup' do |api|
         api.has_param :accounts, { list: 'string' }
-      end
-    end
-
-    has_edge :userpermissions do |edge|
-      edge.delete do |api|
-        api.has_param :user, 'int'
-      end
-      edge.get do |api|
-        api.has_param :user, 'int'
-      end
-      edge.post 'EventSourceGroup' do |api|
-        api.has_param :tasks, { list: { enum: -> { EventSourceGroup::TASKS }} }
-        api.has_param :user, 'int'
       end
     end
 

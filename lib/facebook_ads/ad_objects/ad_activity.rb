@@ -48,6 +48,7 @@ module FacebookAds
       "billing_event",
       "campaign_ended",
       "campaign_spending_limit_reached",
+      "conversion_event_updated",
       "create_ad",
       "create_ad_set",
       "create_audience",
@@ -81,22 +82,27 @@ module FacebookAds
       "update_ad_set_bidding",
       "update_ad_set_budget",
       "update_ad_set_duration",
+      "update_ad_set_learning_stage_status",
+      "update_ad_set_min_spend_target",
       "update_ad_set_name",
       "update_ad_set_optimization_goal",
       "update_ad_set_run_status",
+      "update_ad_set_spend_cap",
       "update_ad_set_target_spec",
       "update_ad_targets_spec",
       "update_adgroup_stop_delivery",
       "update_audience",
       "update_campaign_ad_scheduling",
       "update_campaign_budget",
+      "update_campaign_budget_optimization_toggling_status",
       "update_campaign_delivery_type",
-      "update_campaign_duration",
       "update_campaign_group_ad_scheduling",
       "update_campaign_group_delivery_type",
       "update_campaign_group_spend_cap",
       "update_campaign_name",
       "update_campaign_run_status",
+      "update_campaign_schedule",
+      "update_delivery_type_cross_level_shift",
     ]
 
     CATEGORY = [
@@ -111,6 +117,11 @@ module FacebookAds
       "DATE",
       "STATUS",
       "TARGETING",
+    ]
+
+    DATA_SOURCE = [
+      "CALYPSO",
+      "TAO",
     ]
 
 

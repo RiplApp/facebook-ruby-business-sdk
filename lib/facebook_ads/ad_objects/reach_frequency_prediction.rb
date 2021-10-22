@@ -55,6 +55,7 @@ module FacebookAds
       "REGULAR_SPORTS",
       "REGULAR_STYLE",
       "REGULAR_TV_MOVIES",
+      "SPANISH",
       "SPORTS",
     ]
 
@@ -76,7 +77,6 @@ module FacebookAds
     field :daily_impression_curve, { list: 'double' }
     field :daily_impression_curve_map, 'map<unsigned int, list<float>>'
     field :day_parting_schedule, { list: 'ReachFrequencyDayPart' }
-    field :demo_breakdown, 'ReachFrequencyEstimatesDemoBreakdown'
     field :destination_id, 'string'
     field :end_time, 'datetime'
     field :expiration_time, 'datetime'
@@ -89,10 +89,8 @@ module FacebookAds
     field :external_minimum_impression, 'int'
     field :external_minimum_reach, 'int'
     field :external_reach, 'int'
-    field :external_values_breakdown, 'string'
     field :feed_ratio_0000, 'int'
     field :frequency_cap, 'int'
-    field :frequency_distribution, { list: 'double' }
     field :frequency_distribution_map, 'map<unsigned int, list<float>>'
     field :frequency_distribution_map_agg, 'map<unsigned int, list<unsigned int>>'
     field :grp_audience_size, 'double'
@@ -141,8 +139,6 @@ module FacebookAds
     field :timezone_id, 'int'
     field :timezone_name, 'string'
     field :topline_id, 'int'
-    field :tv_viewer_cluster_map, 'map<unsigned int, Object>'
-    field :video_view_benchmark_map, 'hash'
     field :video_view_length_constraint, 'int'
     field :viewtag, 'string'
     field :action, { enum: -> { ACTION }}

@@ -32,14 +32,20 @@ module FacebookAds
     field :id, 'string'
     field :in_conflict, 'bool'
     field :isrc, 'string'
+    field :match_rule, 'VideoCopyrightRule'
     field :ownership_countries, { list: 'string' }
     field :reference_file_status, 'string'
     field :ridge_monitoring_status, 'string'
+    field :tags, { list: 'string' }
     field :update_time, 'datetime'
     field :whitelisted_fb_users, { list: 'object' }
     field :whitelisted_ig_users, { list: 'string' }
     has_no_post
     has_no_delete
+
+    has_edge :update_records do |edge|
+      edge.get
+    end
 
   end
 end

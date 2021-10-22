@@ -27,9 +27,9 @@ module FacebookAds
 
   class AdSet < AdObject
     BID_STRATEGY = [
+      "COST_CAP",
       "LOWEST_COST_WITHOUT_CAP",
       "LOWEST_COST_WITH_BID_CAP",
-      "TARGET_COST",
     ]
 
     BILLING_EVENT = [
@@ -37,12 +37,13 @@ module FacebookAds
       "CLICKS",
       "IMPRESSIONS",
       "LINK_CLICKS",
+      "LISTING_INTERACTION",
       "NONE",
       "OFFER_CLAIMS",
       "PAGE_LIKES",
       "POST_ENGAGEMENT",
+      "PURCHASE",
       "THRUPLAY",
-      "VIDEO_VIEWS",
     ]
 
     CONFIGURED_STATUS = [
@@ -55,8 +56,11 @@ module FacebookAds
     EFFECTIVE_STATUS = [
       "ACTIVE",
       "ARCHIVED",
+      "CAMPAIGN_PAUSED",
       "DELETED",
+      "IN_PROCESS",
       "PAUSED",
+      "WITH_ISSUES",
     ]
 
     OPTIMIZATION_GOAL = [
@@ -78,13 +82,15 @@ module FacebookAds
       "PAGE_ENGAGEMENT",
       "PAGE_LIKES",
       "POST_ENGAGEMENT",
+      "QUALITY_CALL",
+      "QUALITY_LEAD",
       "REACH",
       "REPLIES",
       "SOCIAL_IMPRESSIONS",
       "THRUPLAY",
       "TWO_SECOND_CONTINUOUS_VIDEO_VIEWS",
       "VALUE",
-      "VIDEO_VIEWS",
+      "VISIT_INSTAGRAM_PROFILE",
     ]
 
     STATUS = [
@@ -94,9 +100,32 @@ module FacebookAds
       "PAUSED",
     ]
 
+    DATE_PRESET = [
+      "last_14d",
+      "last_28d",
+      "last_30d",
+      "last_3d",
+      "last_7d",
+      "last_90d",
+      "last_month",
+      "last_quarter",
+      "last_week_mon_sun",
+      "last_week_sun_sat",
+      "last_year",
+      "maximum",
+      "this_month",
+      "this_quarter",
+      "this_week_mon_today",
+      "this_week_sun_today",
+      "this_year",
+      "today",
+      "yesterday",
+    ]
+
     DESTINATION_TYPE = [
       "APP",
       "APPLINKS_AUTOMATIC",
+      "FACEBOOK",
       "MESSENGER",
       "UNDEFINED",
       "WEBSITE",
@@ -113,6 +142,13 @@ module FacebookAds
       "NONE_EXPLORATION",
     ]
 
+    MULTI_OPTIMIZATION_GOAL_WEIGHT = [
+      "BALANCED",
+      "PREFER_EVENT",
+      "PREFER_INSTALL",
+      "UNDEFINED",
+    ]
+
     OPTIMIZATION_SUB_EVENT = [
       "NONE",
       "TRAVEL_INTENT",
@@ -126,26 +162,12 @@ module FacebookAds
       "VIDEO_SOUND_ON",
     ]
 
-    DATE_PRESET = [
-      "LAST_14D",
-      "LAST_28D",
-      "LAST_30D",
-      "LAST_3D",
-      "LAST_7D",
-      "LAST_90D",
-      "LAST_MONTH",
-      "LAST_QUARTER",
-      "LAST_WEEK_MON_SUN",
-      "LAST_WEEK_SUN_SAT",
-      "LAST_YEAR",
-      "LIFETIME",
-      "THIS_MONTH",
-      "THIS_QUARTER",
-      "THIS_WEEK_MON_TODAY",
-      "THIS_WEEK_SUN_TODAY",
-      "THIS_YEAR",
-      "TODAY",
-      "YESTERDAY",
+    TUNE_FOR_CATEGORY = [
+      "CREDIT",
+      "EMPLOYMENT",
+      "HOUSING",
+      "ISSUES_ELECTIONS_POLITICS",
+      "NONE",
     ]
 
     OPERATOR = [
@@ -161,12 +183,10 @@ module FacebookAds
 
 
     field :account_id, 'string'
-    field :ad_keywords, 'AdKeywords'
     field :adlabels, { list: 'AdLabel' }
     field :adset_schedule, { list: 'DayPart' }
     field :asset_feed_id, 'string'
     field :attribution_spec, { list: 'AttributionSpec' }
-    field :best_creative, 'AdDynamicCreative'
     field :bid_adjustments, 'AdBidAdjustments'
     field :bid_amount, 'int'
     field :bid_constraints, 'AdCampaignBidConstraint'
@@ -185,16 +205,19 @@ module FacebookAds
     field :destination_type, 'string'
     field :effective_status, { enum: -> { EFFECTIVE_STATUS }}
     field :end_time, 'datetime'
+    field :existing_customer_budget_percentage, 'int'
     field :frequency_control_specs, { list: 'AdCampaignFrequencyControlSpecs' }
     field :full_funnel_exploration_mode, 'string'
     field :id, 'string'
     field :instagram_actor_id, 'string'
     field :is_dynamic_creative, 'bool'
     field :issues_info, { list: 'AdCampaignIssuesInfo' }
+    field :learning_stage_info, 'AdCampaignLearningStageInfo'
     field :lifetime_budget, 'string'
     field :lifetime_imps, 'int'
     field :lifetime_min_spend_target, 'string'
     field :lifetime_spend_cap, 'string'
+    field :multi_optimization_goal_weight, 'string'
     field :name, 'string'
     field :optimization_goal, { enum: -> { OPTIMIZATION_GOAL }}
     field :optimization_sub_event, 'string'
@@ -209,6 +232,7 @@ module FacebookAds
     field :start_time, 'datetime'
     field :status, { enum: -> { STATUS }}
     field :targeting, 'Targeting'
+    field :targeting_optimization_types, 'hash'
     field :time_based_ad_rotation_id_blocks, { list: { list: 'int' } }
     field :time_based_ad_rotation_intervals, { list: 'int' }
     field :updated_time, 'datetime'
@@ -222,6 +246,7 @@ module FacebookAds
     field :time_start, 'datetime'
     field :time_stop, 'datetime'
     field :topline_id, 'string'
+    field :tune_for_category, { enum: -> { TUNE_FOR_CATEGORY }}
     field :upstream_events, 'hash'
 
     has_edge :activities do |edge|
@@ -263,17 +288,36 @@ module FacebookAds
 
     has_edge :ads do |edge|
       edge.get 'Ad' do |api|
-        api.has_param :ad_draft_id, 'string'
         api.has_param :date_preset, { enum: -> { Ad::DATE_PRESET }}
         api.has_param :effective_status, { list: 'string' }
-        api.has_param :include_deleted, 'bool'
-        api.has_param :include_drafts, 'bool'
         api.has_param :time_range, 'object'
         api.has_param :updated_since, 'int'
       end
     end
 
+    has_edge :asyncadrequests do |edge|
+      edge.get 'AdAsyncRequest' do |api|
+        api.has_param :statuses, { list: { enum: -> { AdAsyncRequest::STATUSES }} }
+      end
+    end
+
+    has_edge :content_delivery_report do |edge|
+      edge.get 'ContentDeliveryReport' do |api|
+        api.has_param :end_date, 'datetime'
+        api.has_param :platform, { enum: -> { ContentDeliveryReport::PLATFORM }}
+        api.has_param :position, { enum: -> { ContentDeliveryReport::POSITION }}
+        api.has_param :start_date, 'datetime'
+        api.has_param :summary, 'bool'
+      end
+    end
+
     has_edge :copies do |edge|
+      edge.get 'AdSet' do |api|
+        api.has_param :date_preset, { enum: -> { AdSet::DATE_PRESET }}
+        api.has_param :effective_status, { list: { enum: -> { AdSet::EFFECTIVE_STATUS }} }
+        api.has_param :is_completed, 'bool'
+        api.has_param :time_range, 'object'
+      end
       edge.post 'AdSet' do |api|
         api.has_param :campaign_id, 'string'
         api.has_param :create_dco_adset, 'bool'
@@ -315,6 +359,7 @@ module FacebookAds
         api.has_param :time_range, 'object'
         api.has_param :time_ranges, { list: 'object' }
         api.has_param :use_account_attribution_setting, 'bool'
+        api.has_param :use_unified_attribution_setting, 'bool'
       end
       edge.post 'AdReportRun' do |api|
         api.has_param :action_attribution_windows, { list: { enum: -> { AdsInsights::ACTION_ATTRIBUTION_WINDOWS }} }
@@ -337,6 +382,7 @@ module FacebookAds
         api.has_param :time_range, 'object'
         api.has_param :time_ranges, { list: 'object' }
         api.has_param :use_account_attribution_setting, 'bool'
+        api.has_param :use_unified_attribution_setting, 'bool'
       end
     end
 

@@ -26,9 +26,19 @@ module FacebookAds
   # pull request for this class.
 
   class Vehicle < AdObject
+    IMAGE_FETCH_STATUS = [
+      "DIRECT_UPLOAD",
+      "FETCHED",
+      "FETCH_FAILED",
+      "NO_STATUS",
+      "OUTDATED",
+      "PARTIAL_FETCH",
+    ]
+
     AVAILABILITY = [
       "AVAILABLE",
       "NOT_AVAILABLE",
+      "PENDING",
     ]
 
     BODY_STYLE = [
@@ -105,9 +115,10 @@ module FacebookAds
 
 
     field :address, 'object'
-    field :applinks, 'AppLinks'
+    field :applinks, 'CatalogItemAppLinks'
     field :availability, 'string'
     field :body_style, 'string'
+    field :category_specific_fields, 'CatalogSubVerticalList'
     field :condition, 'string'
     field :currency, 'string'
     field :custom_label_0, 'string'
@@ -125,6 +136,7 @@ module FacebookAds
     field :features, { list: 'object' }
     field :fuel_type, 'string'
     field :id, 'string'
+    field :image_fetch_status, { enum: -> { IMAGE_FETCH_STATUS }}
     field :images, { list: 'string' }
     field :interior_color, 'string'
     field :legal_disclosure_impressum_url, 'string'
@@ -141,6 +153,7 @@ module FacebookAds
     field :title, 'string'
     field :transmission, 'string'
     field :trim, 'string'
+    field :unit_price, 'object'
     field :url, 'string'
     field :vehicle_id, 'string'
     field :vehicle_registration_plate, 'string'
@@ -149,6 +162,18 @@ module FacebookAds
     field :vin, 'string'
     field :year, 'int'
     has_no_delete
+
+    has_edge :augmented_realities_metadata do |edge|
+      edge.get
+    end
+
+    has_edge :channels_to_integrity_status do |edge|
+      edge.get 'CatalogItemChannelsToIntegrityStatus'
+    end
+
+    has_edge :videos_metadata do |edge|
+      edge.get
+    end
 
   end
 end

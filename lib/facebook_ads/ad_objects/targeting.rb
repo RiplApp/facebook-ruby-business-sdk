@@ -27,13 +27,11 @@ module FacebookAds
 
   class Targeting < AdObject
     DEVICE_PLATFORMS = [
-      "connected_tv",
       "desktop",
       "mobile",
     ]
 
     EFFECTIVE_DEVICE_PLATFORMS = [
-      "connected_tv",
       "desktop",
       "mobile",
     ]
@@ -50,7 +48,7 @@ module FacebookAds
     field :catalog_based_targeting, 'CatalogBasedTargeting'
     field :cities, { list: 'IdName' }
     field :college_years, { list: 'int' }
-    field :connections, { list: 'IdName' }
+    field :connections, { list: 'ConnectionsTargeting' }
     field :contextual_targeting_categories, { list: 'IdName' }
     field :countries, { list: 'string' }
     field :country, { list: 'string' }
@@ -71,8 +69,9 @@ module FacebookAds
     field :engagement_specs, { list: 'TargetingDynamicRule' }
     field :ethnic_affinity, { list: 'IdName' }
     field :exclude_reached_since, { list: 'string' }
-    field :excluded_connections, { list: 'IdName' }
-    field :excluded_custom_audiences, { list: 'IdName' }
+    field :excluded_brand_safety_content_types, { list: 'string' }
+    field :excluded_connections, { list: 'ConnectionsTargeting' }
+    field :excluded_custom_audiences, { list: 'RawCustomAudience' }
     field :excluded_dynamic_audience_ids, { list: 'string' }
     field :excluded_engagement_specs, { list: 'TargetingDynamicRule' }
     field :excluded_geo_locations, 'TargetingGeoLocation'
@@ -86,7 +85,7 @@ module FacebookAds
     field :family_statuses, { list: 'IdName' }
     field :fb_deal_id, 'string'
     field :flexible_spec, { list: 'FlexibleTargeting' }
-    field :friends_of_connections, { list: 'IdName' }
+    field :friends_of_connections, { list: 'ConnectionsTargeting' }
     field :genders, { list: 'int' }
     field :generation, { list: 'IdName' }
     field :geo_locations, 'TargetingGeoLocation'
@@ -97,7 +96,7 @@ module FacebookAds
     field :income, { list: 'IdName' }
     field :industries, { list: 'IdName' }
     field :instagram_positions, { list: 'string' }
-    field :instream_video_sponsorship_placements, { list: 'string' }
+    field :instream_video_skippable_excluded, 'bool'
     field :interested_in, { list: 'int' }
     field :interests, { list: 'IdName' }
     field :is_whatsapp_destination_ad, 'bool'
@@ -114,7 +113,6 @@ module FacebookAds
     field :product_audience_specs, { list: 'TargetingProductAudienceSpec' }
     field :prospecting_audience, 'TargetingProspectingAudience'
     field :publisher_platforms, { list: 'string' }
-    field :publisher_visibility_categories, { list: 'string' }
     field :radius, 'string'
     field :regions, { list: 'IdName' }
     field :relationship_statuses, { list: 'int' }

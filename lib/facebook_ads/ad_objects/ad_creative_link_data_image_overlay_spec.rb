@@ -57,11 +57,14 @@ module FacebookAds
     ]
 
     TEXT_TYPE = [
+      "automated_personalize",
       "custom",
       "disclaimer",
       "from_price",
+      "guest_rating",
       "percentage_off",
       "price",
+      "star_rating",
       "strikethrough_price",
     ]
 

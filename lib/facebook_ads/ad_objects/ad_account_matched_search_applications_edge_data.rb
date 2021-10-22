@@ -28,21 +28,33 @@ module FacebookAds
   class AdAccountMatchedSearchApplicationsEdgeData < AdObject
     APP_STORE = [
       "AMAZON_APP_STORE",
+      "APK_MIRROR",
+      "APK_MONK",
+      "APK_PURE",
+      "APTOIDE_A1_STORE",
+      "BEMOBI_MOBILE_STORE",
       "DOES_NOT_EXIST",
       "FB_ANDROID_STORE",
       "FB_CANVAS",
       "FB_GAMEROOM",
+      "GALAXY_STORE",
       "GOOGLE_PLAY",
       "INSTANT_GAME",
       "ITUNES",
       "ITUNES_IPAD",
+      "OCULUS_APP_STORE",
+      "OPPO",
       "ROKU_STORE",
+      "UPTODOWN",
+      "VIVO",
       "WINDOWS_10_STORE",
       "WINDOWS_STORE",
+      "XIAOMI",
     ]
 
 
     field :app_id, 'string'
+    field :are_app_events_unavailable, 'bool'
     field :icon_url, 'string'
     field :name, 'string'
     field :search_source_store, 'string'
