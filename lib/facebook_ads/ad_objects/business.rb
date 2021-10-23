@@ -143,7 +143,7 @@ module FacebookAds
       edge.post 'Business' do |api|
         api.has_param :app_id, 'string'
         api.has_param :fbe_external_business_id, 'string'
-        api.has_param :scope, { list: 'string' }
+        api.has_param :scope, { list: 'Permission' }
         api.has_param :system_user_name, 'string'
       end
     end
